@@ -1,11 +1,19 @@
 import { useState, useEffect } from "react";
+import ContactList from "./ContactList";
 import "./App.css";
 
 function App() {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState([
+    {
+      "firstName": "Ricardo",
+      "lastName": "Martinho",
+      "email": "ricardo@gmail.com",
+      id: 1,
+    },
+  ]);
 
   useEffect(() => {
-    fetchContacts();
+    // fetchContacts();
   }, []);
 
   const fetchContacts = async () => {
@@ -14,10 +22,8 @@ function App() {
     setContacts(data.contacts);
     console.log(data.contacts);
   };
-  return <>
   
-  
-  </>;
+  return <ContactList contacts={contacts} />;
 }
 
 export default App;
