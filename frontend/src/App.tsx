@@ -14,7 +14,10 @@ function App() {
     setContacts(data.contacts);
     console.log(data.contacts);
   };
-  return <></>;
+  return <>
+  
+  
+  </>;
 }
 
 export default App;
