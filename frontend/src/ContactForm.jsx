@@ -1,12 +1,12 @@
 import { useState } from "react";
 
-const ContactForm = () => {
+const ContactForm = ({}) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
 
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
 
     e.preventDefault()
 
@@ -25,7 +25,13 @@ const ContactForm = () => {
         },
         body: JSON.stringify(data)
     }
-    const response = await fetch(url, options)
+    const response = await  fetch(url, options)
+    if (response.status !== 201 && response.status !== 200) {
+        const data = await response.json()
+        alert(data.message)
+    } else {
+            //success
+    }
 
   }
 
