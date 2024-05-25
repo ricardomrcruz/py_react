@@ -3,14 +3,7 @@ import ContactList from "./ContactList";
 import "./App.css";
 
 function App() {
-  const [contacts, setContacts] = useState([
-    {
-      "firstName": "Ricardo",
-      "lastName": "Martinho",
-      "email": "ricardo@gmail.com",
-      id: 1,
-    },
-  ]);
+  const [contacts, setContacts] = useState([]);
 
   useEffect(() => {
     // fetchContacts();
@@ -22,7 +15,7 @@ function App() {
     setContacts(data.contacts);
     console.log(data.contacts);
   };
-  
+
   return <ContactList contacts={contacts} />;
 }
 
