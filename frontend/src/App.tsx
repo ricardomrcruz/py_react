@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import ContactList from "./ContactList";
+import ContactForm from "./ContactForm";
 import "./App.css";
 
 function App() {
   const [contacts, setContacts] = useState([]);
 
   useEffect(() => {
-    // fetchContacts();
+    fetchContacts();
   }, []);
 
   const fetchContacts = async () => {
@@ -16,7 +17,12 @@ function App() {
     console.log(data.contacts);
   };
 
-  return <ContactList contacts={contacts} />;
+  return (
+    <>
+      <ContactList contacts={contacts} />
+      <ContactForm />
+    </>
+  );
 }
 
 export default App;

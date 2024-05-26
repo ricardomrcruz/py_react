@@ -1,39 +1,37 @@
 import { useState } from "react";
 
+
 const ContactForm = ({}) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
 
-
-  const onSubmit = async (e) => {
-
-    e.preventDefault()
+  const onSubmit = async (e:any) => {
+    e.preventDefault();
 
     const data = {
-        firstName,
-        lastName,
-        email
-    }
+      firstName,
+      lastName,
+      email,
+    };
 
-    const url = "http://127.0.0.1:5000/create_contact"
+    const url = "http://127.0.0.1:5000/create_contact";
 
     const options = {
-        method: "POST",
-        headers: {
-            "Content-type": "application/json"
-        },
-        body: JSON.stringify(data)
-    }
-    const response = await  fetch(url, options)
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+    const response = await fetch(url, options);
     if (response.status !== 201 && response.status !== 200) {
-        const data = await response.json()
-        alert(data.message)
+      const data = await response.json();
+      alert(data.message);
     } else {
-            //success
+      //success
     }
-
-  }
+  };
 
   return (
     <form onSubmit={onSubmit}>
@@ -64,10 +62,9 @@ const ContactForm = ({}) => {
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
-      <button type="submit" >Create Contact</button>
+      <button type="submit">Create Contact</button>
     </form>
   );
 };
-
 
 export default ContactForm;
