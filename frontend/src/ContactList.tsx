@@ -1,5 +1,3 @@
-
-
 const ContactList = ({ contacts, updateContact, updateCallback }: any) => {
   return (
     <div>

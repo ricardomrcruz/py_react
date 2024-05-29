@@ -16,7 +16,9 @@ const ContactForm = ({ existingContact = {}, updateCallback }: any) => {
       email,
     };
 
-    const url = "http://127.0.0.1:5000/" + (updating ? `update_contact/${existingContact.id}` : "create_contact");
+    const url =
+      "http://127.0.0.1:5000/" +
+      (updating ? `update_contact/${existingContact.id}` : "create_contact");
 
     const options = {
       method: updating ? "PATCH" : "POST",
@@ -30,7 +32,7 @@ const ContactForm = ({ existingContact = {}, updateCallback }: any) => {
       const data = await response.json();
       alert(data.message);
     } else {
-      updateCallback()
+      updateCallback();
     }
   };
 

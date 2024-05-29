@@ -13,14 +13,18 @@ function App() {
   }, []);
 
   const fetchContacts = async () => {
-    const response = await fetch("http://127.0.0.1:5000/contacts");
-    const data = await response.json();
-    setContacts(data.contacts);
+    try {
+      const response = await fetch("http://127.0.0.1:5000/contacts");
+      const data = await response.json();
+      setContacts(data.contacts);
+    } catch (error) {
+      console.error("Error fetching contacts:", error);
+    }
   };
 
   const closeModal = () => {
-    setIsModalOpen(false)
-    setCurrentContact({})
+    setIsModalOpen(false);
+    setCurrentContact({});
   };
 
   const openCreateModal = () => {
@@ -28,14 +32,14 @@ function App() {
   };
 
   const openEditModal = (contact: any) => {
-    if (isModalOpen) return
-    setCurrentContact(contact)
-    setIsModalOpen(true)
+    if (isModalOpen) return;
+    setCurrentContact(contact);
+    setIsModalOpen(true);
   };
 
   const onUpdate = () => {
-    closeModal()
-    fetchContacts()
+    closeModal();
+    fetchContacts();
   };
 
   return (
