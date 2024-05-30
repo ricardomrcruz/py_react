@@ -1,0 +1,59 @@
+/* src/app.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #424242;
+	color: #df5333;
+	font-family: 'JetBrains Mono', monospace;
+	margin: 0;
+	padding: 0;
+}
+
+.layout {
+	margin: auto;
+	padding: 30px 350px;
+}
+
+a {
+	color: #ffaf9b;
+}
+
+.container {
+	padding: 0 20px;
+}
+
+nav {
+	padding: 20px 0;
+	font-size: 20px !important;
+}
+
+.color1 {
+	color: #f7f0e9;
+}
+.color2 {
+	color: #ffaf9b;
+}
+.color3 {
+	color: #df5333;
+}
+.color4 {
+	color: #424242;
+}
+.bgcolor1, .hover:bgcolor1 {
+	background: #f7f0e9;
+}
+.bgcolor2 {
+	background: #ffaf9b;
+}
+.bgcolor3 {
+	background: #df5333;
+}
+.bgcolor4 {
+	background: #424242;
+}
