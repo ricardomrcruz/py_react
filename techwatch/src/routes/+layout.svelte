@@ -12,7 +12,7 @@
 			<p><a href="/products">Products</a></p>
 			<p><a href="/api">Api</a></p>
 			<p>
-				<a href="/register" class="bgcolor2 color4  p-1 ml-2 rounded-sm text-[1.15rem]">Register</a>
+				<a href="/register" class="bg-[#212125] color4  p-2 ml-2 rounded-sm text-[1.15rem]">Register</a>
 			</p>
 		</div>
 	</nav>
