@@ -1,6 +1,6 @@
 export const posts1 = [
     {
-        title: 'PlayStation 5 Digital Edition - CFI-1102B ',
+        title: 'PlayStation 5 Digital Edition - CFI-1102B',
         price: '539.00',
         description: 'The PS5 Digital Edition unleashes new gaming possibilities that you never anticipated. Experience lightning fast loading with an ultra-high speed SSD, deeper immersion with support for haptic feedback, adaptive triggers, and 3D Audio, and an all-new generation of incredible PlayStation games. PS5 Digital Edition is an all-digital version of the PS5 console with no disc drive. Sign into your account for PlayStation Network and go to PlayStation Store to buy and download games.',
         link: 'https://www.amazon.com/PlayStation%C2%AE5-Console-Marvels-Spider-Man-PlayStation-5/dp/B0CK9PPX24/ref=sr_1_2?dib=eyJ2IjoiMSJ9.AHjTd7ZFe8s8RHzX7QExwDesCneAdSrHHQ5Jj2D66rtYJyhCXNNDSoidNpXrY6Ck9eOgy6orBGVbZQXbSyikAV2L24j3WUntJZje14sYpzR-4LsVkjj9ygki642sWsn1RgYgp-6jK78vaGi6Ot9u0X5ZVIi6WRs67W4dAtoEKyN2-0EU2Y1uUdqYzCCjsqW339H4279Cz0rS3Ss6xnUUBSVkjLGRSVq4uje-4CVcTO0.bcJp0aj3V1hdpvHKRrIap4QwiWENMMav4mI9Ix3H40o&dib_tag=se&keywords=playstation+5&qid=1717280868&sr=8-2',

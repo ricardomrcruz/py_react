@@ -3,6 +3,8 @@
 	import Button, { Label } from '@smui/button';
 	import ProductNavAccordion from './components/ProductNavAccordion.svelte';
 	import ProductCard from './components/ProductCard.svelte';
+	export let data;
+
 	import Card, {
 		PrimaryAction,
 		Media,
@@ -14,9 +16,9 @@
 
 	import IconButton, { Icon } from '@smui/icon-button';
 
-	// example
-	let description =
-		'The PS5 Digital Edition unleashes new gaming possibilities that you never anticipated. Experience lightning fast loading with an ultra-high speed SSD, deeper immersion with support for haptic feedback, adaptive triggers, and 3D Audio, and an all-new generation of incredible PlayStation games. PS5 Digital Edition is an all-digital version of the PS5 console with no disc drive. Sign into your account for PlayStation Network and go to PlayStation Store to buy and download games.';
+	
+	//  console.log('posts:', data); // Debug log
+	
 
 	let clicked = 0;
 </script>
@@ -38,21 +40,29 @@
 <div class="flex w-full justify-between">
 	<div class="w-[30%]">
 		<ProductNavAccordion />
-		
 	</div>
 
 	<div class=" w-[68%] float-end bgcolor5 mt-8 rounded-sm justify-center">
-		<ProductCard />
-		<ProductCard />
-		<ProductCard />
-		<ProductCard />
-		<ProductCard />
-		<ProductCard />
-		<ProductCard />
-		<ProductCard />
+		{#each data.posts1 as post}
+			<ProductCard
+				title={post.title}
+				description={post.description}
+				price={post.price}
+				link={post.link}
+				img={post.img}
+			/>
+		{/each}
+		{#each data.posts2 as post}
+			<ProductCard
+				title={post.title}
+				description={post.description}
+				price={post.price}
+				link={post.link}
+				img={post.img}
+			/>
+		{/each}
+		
 	</div>
 </div>
 
 <pre class="status">Clicked: {clicked}</pre>
-
-

@@ -7,7 +7,7 @@ export const posts2 = [
         img: 'https://i.ebayimg.com/images/g/ql0AAOSw5MhmW-lJ/s-l1600.webp',
     },
     {
-        title: 'PlayStation®5 Console – Marvel’s Spider-Man 2 Bundle ',
+        title: 'Apple iPhone 15 Pro Max - 1 TB - Multicolor Very Good Condition',
         price: '625.95',
         description: 'Very Good - Refurbished',
         link: 'https://www.ebay.com/itm/296129124843?epid=4062765338&itmmeta=01HZCJHGJFQXR751T3CS56GXV7&hash=item44f2abd9eb:g:AbEAAOSw6aVlivIB&itmprp=enc%3AAQAJAAAA0N9YzczBUtmdOrx3HjQpUbsjwKQW0C2QtGTvkQ7fSIgj3FmBm6xn2D6t5FphAIl2d5bhcYW37ph5E68%2FlJPvbuy6LY6zN59o8LtY0E1kvBzggZ8ktzN1PdZOa4UXT9OzhpPFnB8ClWTvejIP5RPOuXxBoRfSx3uKOJdVpIq6WiqkNwPgbdGgysRcCUIF3cRNhRG%2FxHvAP6%2F56m4%2BHWQYCPpURMDWi3hlQ9YgJ%2FBblL%2BRc%2BOf0Xx7%2FeQC5lf5nBd4nbGsVXjGtNkxes%2FO2Ckcn8Q%3D%7Ctkp%3ABlBMULyJxpL7Yw',

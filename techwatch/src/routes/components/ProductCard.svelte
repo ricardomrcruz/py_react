@@ -12,28 +12,23 @@
 
 	import IconButton, { Icon } from '@smui/icon-button';
 
-	// let description =
-	// 	'The PS5 Digital Edition unleashes new gaming possibilities that you never anticipated. Experience lightning fast loading with an ultra-high speed SSD, deeper immersion with support for haptic feedback, adaptive triggers, and 3D Audio, and an all-new generation of incredible PlayStation games. PS5 Digital Edition is an all-digital version of the PS5 console with no disc drive. Sign into your account for PlayStation Network and go to PlayStation Store to buy and download games.';
 
 	let clicked = 0;
 
 	export let title: string;
-	export let price: number;
+	export let price: string;
 	export let description: string;
 	export let link: string;
 	export let img: string;
 
-
+	// console.log('ProductCard Props:', { title, price, description, link, img }); // Debug log
 </script>
 
 <div class="card-container w-[95%] m-auto my-4">
 	<Card class="bgcolor4  ">
 		<PrimaryAction on:click={() => clicked++}>
 			<div class="flex w-full m-5">
-				<div
-					class="card-media-container"
-					style="background-image: url({img});"
-				></div>
+				<div class="card-media-container" style="background-image: url({img});"></div>
 				<div class="mx-2">
 					<Content class="mdc-typography--body2 mx-5">
 						<h2
@@ -61,10 +56,8 @@
 			<ActionButtons>
 				<Button on:click={() => clicked++}>
 					<Label>
-						<a
-							href={link}
-							>Check Product</a
-						></Label>
+						<a href={link}>Check Product</a></Label
+					>
 				</Button>
 				<!-- <Button on:click={() => clicked++}>
                     <Label>Another</Label>
@@ -84,17 +77,14 @@
                     >share</IconButton
                 > -->
 				<IconButton class="material-icons" on:click={() => clicked++} title="More options"
-					>more_vert</IconButton>
+					>more_vert</IconButton
+				>
 			</ActionIcons>
 		</Actions>
 	</Card>
 </div>
 
 <style>
-	* :global(.card-media-16x9) {
-		background-image: url(https://c.media-amazon.com/images/I/61loOpDhuML._AC_UY218_.jpg);
-	}
-
 	* :global(.card-media-container) {
 		width: 35%;
 		height: 200px;
