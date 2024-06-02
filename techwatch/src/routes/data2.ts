@@ -1,4 +1,4 @@
-export const posts1 = [
+export const posts2 = [
     {
         title: 'Apple iPhone 15 Pro Max - 1 TB - Multicolor (Unlocked) (Single SIM) ',
         price: '810.00',

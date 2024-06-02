@@ -12,10 +12,18 @@
 
 	import IconButton, { Icon } from '@smui/icon-button';
 
-	let description =
-		'The PS5 Digital Edition unleashes new gaming possibilities that you never anticipated. Experience lightning fast loading with an ultra-high speed SSD, deeper immersion with support for haptic feedback, adaptive triggers, and 3D Audio, and an all-new generation of incredible PlayStation games. PS5 Digital Edition is an all-digital version of the PS5 console with no disc drive. Sign into your account for PlayStation Network and go to PlayStation Store to buy and download games.';
+	// let description =
+	// 	'The PS5 Digital Edition unleashes new gaming possibilities that you never anticipated. Experience lightning fast loading with an ultra-high speed SSD, deeper immersion with support for haptic feedback, adaptive triggers, and 3D Audio, and an all-new generation of incredible PlayStation games. PS5 Digital Edition is an all-digital version of the PS5 console with no disc drive. Sign into your account for PlayStation Network and go to PlayStation Store to buy and download games.';
 
 	let clicked = 0;
+
+	export let title: string;
+	export let price: number;
+	export let description: string;
+	export let link: string;
+	export let img: string;
+
+
 </script>
 
 <div class="card-container w-[95%] m-auto my-4">
@@ -24,21 +32,24 @@
 			<div class="flex w-full m-5">
 				<div
 					class="card-media-container"
-					style="background-image: url({'https://c.media-amazon.com/images/I/61loOpDhuML._AC_UY218_.jpg'});"
+					style="background-image: url({img});"
 				></div>
 				<div class="mx-2">
 					<Content class="mdc-typography--body2 mx-5">
-						<h2 class="mdc-typography--headline6 font-bold color3 truncate-text2" style="margin: 0;">
-							PlayStation 5 Digital Edition - CFI-1102B 
+						<h2
+							class="mdc-typography--headline6 font-bold color3 truncate-text2"
+							style="margin: 0;"
+						>
+							{title}
 						</h2>
 						<div class="flex w-full">
 							<div>
 								<h3 class="mdc-typography--subtitle2" style="margin: 0 0 10px; color: #888;">
-									539.00 $
+									{price} $
 								</h3>
 							</div>
 							<div class="m-3 color3 float-end">
-								<h2>amazon</h2>
+								<h2>website</h2>
 							</div>
 						</div>
 						<h2 class="truncate-text text-gray-500">{description}</h2>
@@ -50,11 +61,10 @@
 			<ActionButtons>
 				<Button on:click={() => clicked++}>
 					<Label>
-						<a 
-							href="https://www.amazon.com/PlayStation%C2%AE5-Console-Marvels-Spider-Man-PlayStation-5/dp/B0CK9PPX24/ref=sr_1_2?dib=eyJ2IjoiMSJ9.AHjTd7ZFe8s8RHzX7QExwDesCneAdSrHHQ5Jj2D66rtYJyhCXNNDSoidNpXrY6Ck9eOgy6orBGVbZQXbSyikAV2L24j3WUntJZje14sYpzR-4LsVkjj9ygki642sWsn1RgYgp-6jK78vaGi6Ot9u0X5ZVIi6WRs67W4dAtoEKyN2-0EU2Y1uUdqYzCCjsqW339H4279Cz0rS3Ss6xnUUBSVkjLGRSVq4uje-4CVcTO0.bcJp0aj3V1hdpvHKRrIap4QwiWENMMav4mI9Ix3H40o&dib_tag=se&keywords=playstation+5&qid=1717280868&sr=8-2"
+						<a
+							href={link}
 							>Check Product</a
-						></Label
-					>
+						></Label>
 				</Button>
 				<!-- <Button on:click={() => clicked++}>
                     <Label>Another</Label>
@@ -74,8 +84,7 @@
                     >share</IconButton
                 > -->
 				<IconButton class="material-icons" on:click={() => clicked++} title="More options"
-					>more_vert</IconButton
-				>
+					>more_vert</IconButton>
 			</ActionIcons>
 		</Actions>
 	</Card>
@@ -102,7 +111,7 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
-    * :global(.truncate-text2) {
+	* :global(.truncate-text2) {
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
@@ -113,7 +122,4 @@
 		color: #f7f0e9 !important;
 		font-size: 3vh;
 	}
-    
-    
-
 </style>
