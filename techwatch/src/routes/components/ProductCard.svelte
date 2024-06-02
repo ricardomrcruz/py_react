@@ -28,8 +28,8 @@
 				></div>
 				<div class="mx-2">
 					<Content class="mdc-typography--body2 mx-5">
-						<h2 class="mdc-typography--headline6 font-bold color3" style="margin: 0;">
-							PlayStation 5 Digital Edition - CFI-1102B
+						<h2 class="mdc-typography--headline6 font-bold color3 truncate-text2" style="margin: 0;">
+							PlayStation 5 Digital Edition - CFI-1102B 
 						</h2>
 						<div class="flex w-full">
 							<div>
@@ -38,7 +38,7 @@
 								</h3>
 							</div>
 							<div class="m-3 color3 float-end">
-								<h2 >amazon</h2>
+								<h2>amazon</h2>
 							</div>
 						</div>
 						<h2 class="truncate-text text-gray-500">{description}</h2>
@@ -49,7 +49,12 @@
 		<Actions>
 			<ActionButtons>
 				<Button on:click={() => clicked++}>
-					<Label>Check Product</Label>
+					<Label>
+						<a 
+							href="https://www.amazon.com/PlayStation%C2%AE5-Console-Marvels-Spider-Man-PlayStation-5/dp/B0CK9PPX24/ref=sr_1_2?dib=eyJ2IjoiMSJ9.AHjTd7ZFe8s8RHzX7QExwDesCneAdSrHHQ5Jj2D66rtYJyhCXNNDSoidNpXrY6Ck9eOgy6orBGVbZQXbSyikAV2L24j3WUntJZje14sYpzR-4LsVkjj9ygki642sWsn1RgYgp-6jK78vaGi6Ot9u0X5ZVIi6WRs67W4dAtoEKyN2-0EU2Y1uUdqYzCCjsqW339H4279Cz0rS3Ss6xnUUBSVkjLGRSVq4uje-4CVcTO0.bcJp0aj3V1hdpvHKRrIap4QwiWENMMav4mI9Ix3H40o&dib_tag=se&keywords=playstation+5&qid=1717280868&sr=8-2"
+							>Check Product</a
+						></Label
+					>
 				</Button>
 				<!-- <Button on:click={() => clicked++}>
                     <Label>Another</Label>
@@ -97,8 +102,18 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
+    * :global(.truncate-text2) {
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 	* :global(.mdc-typography--subtitle2) {
 		color: #f7f0e9 !important;
 		font-size: 3vh;
 	}
+    
+    
+
 </style>

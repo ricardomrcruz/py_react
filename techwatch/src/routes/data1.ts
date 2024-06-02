@@ -1,0 +1,23 @@
+export const posts1 = [
+    {
+        title: 'PlayStation 5 Digital Edition - CFI-1102B ',
+        price: '539.00',
+        description: 'The PS5 Digital Edition unleashes new gaming possibilities that you never anticipated. Experience lightning fast loading with an ultra-high speed SSD, deeper immersion with support for haptic feedback, adaptive triggers, and 3D Audio, and an all-new generation of incredible PlayStation games. PS5 Digital Edition is an all-digital version of the PS5 console with no disc drive. Sign into your account for PlayStation Network and go to PlayStation Store to buy and download games.',
+        link: 'https://www.amazon.com/PlayStation%C2%AE5-Console-Marvels-Spider-Man-PlayStation-5/dp/B0CK9PPX24/ref=sr_1_2?dib=eyJ2IjoiMSJ9.AHjTd7ZFe8s8RHzX7QExwDesCneAdSrHHQ5Jj2D66rtYJyhCXNNDSoidNpXrY6Ck9eOgy6orBGVbZQXbSyikAV2L24j3WUntJZje14sYpzR-4LsVkjj9ygki642sWsn1RgYgp-6jK78vaGi6Ot9u0X5ZVIi6WRs67W4dAtoEKyN2-0EU2Y1uUdqYzCCjsqW339H4279Cz0rS3Ss6xnUUBSVkjLGRSVq4uje-4CVcTO0.bcJp0aj3V1hdpvHKRrIap4QwiWENMMav4mI9Ix3H40o&dib_tag=se&keywords=playstation+5&qid=1717280868&sr=8-2',
+        img: 'https://c.media-amazon.com/images/I/61loOpDhuML._AC_UY218_.jpg',
+    },
+    {
+        title: 'PlayStation®5 Console – Marvel’s Spider-Man 2 Bundle ',
+        price: '547.76',
+        description: 'Swing your way through Marvel’s New York with the PlayStation®5 Console – Marvel’s Spider-Man 2 Bundle. Experience Marvel’s Spider-Man 2 with PS5 innovations. Feel the force of web-swinging with adaptive triggers, while haptic feedback responds to Peter Parker’s new symbiote abilities and Miles Morales’ evolved bio-electric skills. Play as Peter Parker and Miles Morales as they face the ultimate test to save the city from Venom and the symbiote threat. Swing, jump, and utilize the new Web Wings to travel across Marvel’s New York, quickly switching between Peter Parker and Miles Morales to experience different stories and epic new powers, as the iconic villain Venom threatens to destroy their lives, their city, and the ones they love. Marvel’s Spider-Man 2 on PlayStation 5: Haptic Feedback: Feel the power of Spider-Man! The responsive vibrations of the DualSense™ wireless controller bring Peter Parker’s symbiote abilities and Miles Morales’ bio-electric skills to your fingertips. Adaptive Triggers: Master acrobatic moves, execute thrilling combos, and experience the breathtaking excitement of web-swinging traversal through the DualSense wireless controller’s adaptive triggers. Ultra high-speed SSD: Experience the power of the PlayStation®5 console with lightning-fast load times for near-instant character switching across different parts of the city.',
+        link: 'https://www.amazon.com/PlayStation%C2%AE5-Console-Marvels-Spider-Man-PlayStation-5/dp/B0CK9PPX24/ref=sr_1_2?crid=Y0YND1QSW2YP&dib=eyJ2IjoiMSJ9.AHjTd7ZFe8s8RHzX7QExwDesCneAdSrHHQ5Jj2D66rsIZ91rqU0DJHbTq0UficG3-fhMgQmolJCzEJ7HIrh_4jN8NOVBzHYWNNSUehjaNaaY3qa6LSwlcCIaqEQ0vwcEXSsLFpR-ufvcCvxa-3opuyDJBRN-JMC7_ewnXN30DsuYLTtWiHV_na5P-tq2apEMK1i6eaFKYGdfhNt-aOBIfityYazLSPlIxV33PvMyEBk.IPNt3NNPEoGsZSHw5uFnpT77oZqiFW6o9KOwGh0HyB4&dib_tag=se&keywords=playstation+5&qid=1717334132&sprefix=playstation+5%2Caps%2C389&sr=8-2',
+        img: 'https://c.media-amazon.com/images/I/61w5K7IjpoL._SL1500_.jpg',
+    },
+    {
+        title: 'PS5 Console- Horizon Forbidden West Bundle (Renewed)',
+        price: '549.95',
+        description: 'PRODUCT OVERVIEWThe PS5 console unleashes new gaming possibilities that you never anticipated. Experience lightning-fast loading with an ultra-high-speed SSD, deeper immersion with support for haptic feedback, adaptive triggers, and 3D Audio*, and an all-new generation of incredible PlayStation games. *3D audio via built-in TV speakers or analog/USB stereo headphones. Set up and latest system software update required.KEY FEATURESStunning Games - Marvel at incredible graphics and experience new PS5 features.Breathtaking Immersion - Discover a deeper gaming experience with support for haptic feedback, adaptive triggers, and 3D Audio technology.Lightning Speed - Harness the power of a custom CPU, GPU, and SSD with Integrated I/O that rewrites the rules of what a PlayStation console can do.Includes: PS5 Console Horizon Forbidden West Bundle, Wireless Controller, USB Charging Cable, HDMI Cable, AC Power Cord & Base',
+        link: 'https://www.amazon.com/dp/B0BWNYGPWX/ref=dp_cr_wdg_tit_rfb',
+        img: 'https://c.media-amazon.com/images/I/71fa5+U25cL._SL1500_.jpg',
+    },
+]
