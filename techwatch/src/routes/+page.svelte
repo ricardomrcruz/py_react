@@ -1,27 +1,46 @@
 <script lang="ts">
-	import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
-	import Button, { Label } from '@smui/button';
+
+	import { onMount} from 'svelte';
+	
 	import ProductNavAccordion from './components/ProductNavAccordion.svelte';
 	import ProductCard from './components/ProductCard.svelte';
-	export let data;
 
-	import Card, {
-		PrimaryAction,
-		Media,
-		MediaContent,
-		Actions,
-		ActionButtons,
-		ActionIcons
-	} from '@smui/card';
+	interface Product {
+  	title: string;
+  	price: string;
+  	description: string;
+  	link: string;
+  	img: string;
+	}
 
-	import IconButton, { Icon } from '@smui/icon-button';
+	let products : Product[] = [];
+	let selectedCategory = '';
+	let categories = ['playstation-5', 'iphone-15-pro' ]
 
 	
-	//  console.log('posts:', data); // Debug log
+
+	onMount(() => {
+		fetchProducts(selectedCategory);
+
+async function fetchProducts (category:any) {
+		selectedCategory = category
+		const response = await fetch ('/${category}.json')
+		if (response.ok) {
+			products = await response.json();
+		} else {
+			products = [];
+		}
+	}
+
+fetchProducts('playstation-5');
+
+	});
+
 	
 
-	let clicked = 0;
 </script>
+
+
 
 <div class="flex justify-between">
 	<div class="w-1/2">
@@ -39,30 +58,23 @@
 
 <div class="flex w-full justify-between">
 	<div class="w-[30%]">
-		<ProductNavAccordion />
-	</div>
+		<ProductNavAccordion selectCategory categories />
+	</div> 
 
 	<div class=" w-[68%] float-end bgcolor5 mt-8 rounded-sm justify-center">
-		{#each data.posts1 as post}
+		 {#each products as product}
 			<ProductCard
-				title={post.title}
-				description={post.description}
-				price={post.price}
-				link={post.link}
-				img={post.img}
+				title={product.title}
+				description={product.description}
+				price={product.price}
+				link={product.link}
+				img={product.img}
 			/>
 		{/each}
-		{#each data.posts2 as post}
-			<ProductCard
-				title={post.title}
-				description={post.description}
-				price={post.price}
-				link={post.link}
-				img={post.img}
-			/>
-		{/each}
+		
+		
 		
 	</div>
 </div>
 
-<pre class="status">Clicked: {clicked}</pre>
+<!-- <pre class="status">Clicked: {clicked}</pre> -->
