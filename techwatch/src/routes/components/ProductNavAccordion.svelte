@@ -2,8 +2,8 @@
 	import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
 	import Button, { Label } from '@smui/button';
 
-	export let categories;
-  export let selectCategory;
+	 export let categories: string[];
+ 	 export let selectCategory: (category:string)=> void;
 </script>
 
 <!-- <style>
@@ -24,7 +24,7 @@
 					<ul>
 						{#each categories as category}
 							<li>
-								<Button class="myClass" on.click={() => selectCategory(category)} >
+								<Button class="myClass" on:click={() => selectCategory(category)} >
 									<Label>{category}</Label>
 								</Button>
 							</li>

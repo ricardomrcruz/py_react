@@ -1,46 +1,51 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 
-	import { onMount} from 'svelte';
-	
 	import ProductNavAccordion from './components/ProductNavAccordion.svelte';
 	import ProductCard from './components/ProductCard.svelte';
 
 	interface Product {
-  	title: string;
-  	price: string;
-  	description: string;
-  	link: string;
-  	img: string;
+		title: string;
+		price: string;
+		description: string;
+		link: string;
+		img: string;
 	}
 
-	let products : Product[] = [];
-	let selectedCategory = '';
-	let categories = ['playstation-5', 'iphone-15-pro' ]
+	let products: Product[] = [];
+	let selectedCategory = 'playstation-5';
+	let categories = ['playstation-5', 'iphone-15-pro'];
 
-	
 
-	onMount(() => {
-		fetchProducts(selectedCategory);
-
-async function fetchProducts (category:any) {
-		selectedCategory = category
-		const response = await fetch ('/${category}.json')
-		if (response.ok) {
-			products = await response.json();
-		} else {
-			products = [];
+		async function fetchProducts(category: string) {
+			try{
+			const response = await fetch(`./${category}.json`);
+			if (response.ok) {
+				products = await response.json();
+			} else {
+				products = [];
+			}
+			} catch (error) {
+				console.error('Failed to fetch prod:', error);
+				products= [];
+			}
 		}
-	}
 
-fetchProducts('playstation-5');
-
-	});
+		
+		function selectCategory(category:string){
+			selectedCategory = category;
+			fetchProducts(category);
+		}
+		
+		onMount(() => {
+			fetchProducts(selectedCategory);
+		})
+		
+		// selectCategory('playstation-5');
 
 	
 
 </script>
-
-
 
 <div class="flex justify-between">
 	<div class="w-1/2">
@@ -58,11 +63,11 @@ fetchProducts('playstation-5');
 
 <div class="flex w-full justify-between">
 	<div class="w-[30%]">
-		<ProductNavAccordion selectCategory categories />
-	</div> 
+		<ProductNavAccordion {categories} {selectCategory}/>
+	</div>
 
 	<div class=" w-[68%] float-end bgcolor5 mt-8 rounded-sm justify-center">
-		 {#each products as product}
+		{#each products as product}
 			<ProductCard
 				title={product.title}
 				description={product.description}
@@ -71,9 +76,6 @@ fetchProducts('playstation-5');
 				img={product.img}
 			/>
 		{/each}
-		
-		
-		
 	</div>
 </div>
 
