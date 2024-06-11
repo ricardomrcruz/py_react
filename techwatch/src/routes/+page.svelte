@@ -13,35 +13,36 @@
 	}
 
 	let products: Product[] = [];
-	let selectedCategory = 'playstation-5';
-	let categories = ['playstation-5', 'iphone-15-pro'];
+	let selectedCategory = 'iphone-15-pro';
+	let categories = ['iphone-15', 'iphone-15-pro'];
+	let consoles = ['playstation-5', 'iphone-15-pro'];
 
 
-		async function fetchProducts(category: string) {
-			try{
-			const response = await fetch(`./${category}.json`);
-			if (response.ok) {
-				products = await response.json();
-			} else {
-				products = [];
-			}
-			} catch (error) {
-				console.error('Failed to fetch prod:', error);
-				products= [];
-			}
+	async function fetchProducts(category: string) {
+		try{
+		const response = await fetch(`./${category}.json`);
+		if (response.ok) {
+			products = await response.json();
+		} else {
+			products = [];
 		}
+		} catch (error) {
+			console.error('Failed to fetch prod:', error);
+			products= [];
+		}
+	}
 
 		
-		function selectCategory(category:string){
-			selectedCategory = category;
-			fetchProducts(category);
-		}
+	function selectCategory(category:string){
+	 	selectedCategory = category;
+		fetchProducts(category);
+	}
 		
-		onMount(() => {
+	onMount(() => {
 			fetchProducts(selectedCategory);
-		})
+	})
 		
-		// selectCategory('playstation-5');
+	// selectCategory('playstation-5');
 
 	
 
@@ -63,7 +64,7 @@
 
 <div class="flex w-full justify-between">
 	<div class="w-[30%]">
-		<ProductNavAccordion {categories} {selectCategory}/>
+		<ProductNavAccordion {categories} {consoles} {selectCategory} />
 	</div>
 
 	<div class=" w-[68%] float-end bgcolor5 mt-8 rounded-sm justify-center">

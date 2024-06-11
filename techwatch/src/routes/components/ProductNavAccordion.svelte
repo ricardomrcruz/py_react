@@ -3,6 +3,7 @@
 	import Button, { Label } from '@smui/button';
 
 	 export let categories: string[];
+	 export let consoles: string[];
  	 export let selectCategory: (category:string)=> void;
 </script>
 
@@ -34,6 +35,20 @@
 			</Panel>
 			<Panel>
 				<Header class="color3">Video Game Consoles</Header>
+				<Content>
+					<ul>
+						{#each consoles as console}
+							<li>
+								<Button class="myClass" on:click={() => selectCategory(console)} >
+									<Label>{console}</Label>
+								</Button>
+							</li>
+						{/each}
+					</ul>
+				</Content>
+			</Panel>
+			<Panel>
+				<Header class="color3">Graphic Cards</Header>
 				<Content>
 					<ul>
 						<li>
@@ -69,18 +84,6 @@
 						<li>
 							<Button class="myClass">
 								<Label>Nintendo Switch OLED</Label>
-							</Button>
-						</li>
-					</ul>
-				</Content>
-			</Panel>
-			<Panel>
-				<Header class="color3">Graphic Cards</Header>
-				<Content>
-					<ul>
-						<li>
-							<Button class="myClass">
-								<Label>example</Label>
 							</Button>
 						</li>
 					</ul>

@@ -5,7 +5,7 @@
 <div class="layout">
 	<nav class="flex justify-between">
 		<div>
-			<h1 class="text-[1.70rem]  font-extralight"><a href="/" class="color2">Techhwatch</a></h1>
+			<h1 class="text-[1.70rem]  font-extralight"><a href="/" class="color2">Techwatch</a></h1>
 		</div>
 		<div class="flex space-x-4 pt-1">
 			<p><a href="/about">About</a></p>
