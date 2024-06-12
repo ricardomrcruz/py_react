@@ -17,3 +17,11 @@ def get_student(
     )
 ):
     return students[student_id]
+
+
+@app.get("/get-by-name")
+def get_student(name: str):
+    for student_id in students:
+        if students[student_id]["name"] == name:
+            return students[student_id]
+        return {"Data": "Data not found"}
