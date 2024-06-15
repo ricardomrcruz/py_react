@@ -80,15 +80,3 @@ def delete_studen(student_id: int):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
