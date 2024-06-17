@@ -23,6 +23,11 @@ class ProductByCategory(BaseModel):
     product_id: Product.id
     category_id: Category.id
 
+class markets(BaseModel):
+    id: int
+    base_urls: str
+    
+
 
 
 
