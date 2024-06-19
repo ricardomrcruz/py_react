@@ -1,6 +1,9 @@
 from playwright.async_api import async_playwright
 import asyncio
+import json 
+import os
 
+# amazon 
 
 async def main():
 
@@ -30,6 +33,8 @@ async def main():
                 img_el = await product.query_selector(".s-image-optimized-rendering")
                 result["img"] = await img_el.get_attribute("src") if img_el else None
                 data.append(result)
+
+       
             print(data)
             await browser.close()
 
