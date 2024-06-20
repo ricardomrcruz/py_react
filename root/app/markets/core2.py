@@ -3,6 +3,7 @@ import asyncio
 
 # ebay
 
+
 async def main():
 
     browsers = ["chromium", "firefox", "webkit"]
@@ -31,8 +32,10 @@ async def main():
                 img_el = await product.query_selector(".s-image-optimized-rendering")
                 result["img"] = await img_el.get_attribute("src") if img_el else None
                 data.append(result)
+
             print(data)
             await browser.close()
+    return data
 
 
 if __name__ == "__main__":
