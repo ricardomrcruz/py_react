@@ -20,4 +20,34 @@ class Product(Base):
     title = Column(String, index=True)
     price = Column(Integer)
     img = Column(String)
-    ...
+    description = Column(String, nullable=True)
+    url = Column(String)
+    rating = Column(String, nullable=True)
+
+
+class Category(Base):
+    __tablename__ = "categories"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, index=True, unique=True)
+    products = relationship(
+        "Product", secondary=product_category_table, back_populates="categories"
+    )
+
+
+Product.categories = relationship(
+    "Category", secondary=product_category_table, back_populates="products"
+)
+
+
+class User(Base):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True)
+    email = Column(String, unique=True, index=True)
+    hashed_password = Column(String)
+    full_name = Column(String, nullable=True)
+    
+
+
+
+
