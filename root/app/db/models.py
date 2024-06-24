@@ -27,6 +27,9 @@ class Product(Base):
         secondary=product_category_table, back_populates="products"
     )
 
+    def __repr__(self) -> str:
+        return f"<Product {self.title} at {self.date_created}>"
+
 
 class Category(Base):
     __tablename__ = "categories"
