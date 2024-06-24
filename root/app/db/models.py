@@ -1,55 +1,48 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Table
-from sqlalchemy.ext.asyncio import create_async_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, relationship
-from app.core.config import settings
+from typing import List
+from sqlalchemy import Text, Integer, String, ForeignKey, Table
+from sqlalchemy.orm import Mapped, mapped_column, relationship, datetime
+from app.db import Base
 
-Base = declarative_base()
 
 product_category_table = Table(
     "product_category",
     Base.metadata,
-    Column("product_id", Integer, ForeignKey("products.id")),
-    Column("category_id", Integer, ForeignKey("categories_id")),
+    mapped_column("product_id", Integer, ForeignKey("products.id")),
+    mapped_column("category_id", Integer, ForeignKey("categories_id")),
 )
 
 
 class Product(Base):
     __tablename__ = "products"
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, index=True)
-    price = Column(Integer)
-    img = Column(String)
-    description = Column(String, nullable=True)
-    url = Column(String)
-    rating = Column(String, nullable=True)
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    title: Mapped[str] = mapped_column(String, index=True)
+    price: Mapped[int] = mapped_column(Integer)
+    img: Mapped[str] = mapped_column(String)
+    description: Mapped[str | None] = mapped_column(Text, nullable=True)
+    url: Mapped[str] = mapped_column(String)
+    rating: Mapped[str | None] = mapped_column(String, nullable=True)
+    date_created: Mapped[datetime] = mapped_column(default=datetime.utcnow)
+    categories: Mapped[List["Category"]] = relationship(
+        secondary=product_category_table, back_populates="products"
+    )
 
 
 class Category(Base):
     __tablename__ = "categories"
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True, unique=True)
-    products = relationship(
-        "Product", secondary=product_category_table, back_populates="categories"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    name: Mapped[str] = mapped_column(String, index=True, unique=True)
+    products: Mapped[List[Product]] = relationship(
+        secondary=product_category_table, back_populates="categories"
     )
-
-
-Product.categories = relationship(
-    "Category", secondary=product_category_table, back_populates="products"
-)
 
 
 class User(Base):
     __tablename__ = "users"
-    id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True, index=True)
-    email = Column(String, unique=True, index=True)
-    hashed_password = Column(String)
-    full_name = Column(String, nullable=True)
-    
 
-    
-
-
-
-
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    username: Mapped[str] = mapped_column(String, unique=True, index=True)
+    email: Mapped[str] = mapped_column(String, unique=True, index=True)
+    hashed_password: Mapped[str] = mapped_column(String)
+    full_name: Mapped[str | None] = mapped_column(String, nullable=True)
