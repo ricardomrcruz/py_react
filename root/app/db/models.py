@@ -23,8 +23,12 @@ class Product(Base):
     url: Mapped[str] = mapped_column(String)
     rating: Mapped[str | None] = mapped_column(String, nullable=True)
     date_created: Mapped[datetime] = mapped_column(default=datetime.utcnow)
-    categories: Mapped[List["Category"]] = relationship(
-        secondary=product_category_table, back_populates="products"
+
+    category_id: Mapped[int | None] = mapped_column(
+        ForeignKey("categories.id"), nullable=True
+    )
+    category: Mapped["Category | None "] = relationship(
+        "Category", back_populates="products"
     )
 
     def __repr__(self) -> str:
@@ -36,9 +40,7 @@ class Category(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     name: Mapped[str] = mapped_column(String, index=True, unique=True)
-    products: Mapped[List[Product]] = relationship(
-        secondary=product_category_table, back_populates="categories"
-    )
+    products: Mapped[List[Product]] = relationship("Product", back_populates="category")
 
 
 class User(Base):
