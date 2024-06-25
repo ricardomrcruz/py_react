@@ -12,8 +12,10 @@ class Product(BaseModel):
     state: str | None = None
     date_created: datetime
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(
+        from_attributes=True
+    )
+      
 
 class Category(BaseModel):
     name: str
@@ -45,8 +47,9 @@ class User(BaseModel):
     password: str
     full_name: str | None = None
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(
+        from_attributes=True
+    )
 
 
 class UserLogin(BaseModel):

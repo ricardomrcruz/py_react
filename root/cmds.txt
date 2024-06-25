@@ -1,0 +1,17 @@
+ricardo@MSI MINGW64 /g/desktop/techwatch/root (main)
+$ py -m app.db.create_db
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

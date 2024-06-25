@@ -12,7 +12,7 @@ async def create_db():
 
     await engine.dispose()
 
-asyncio.run(create_db())
+# asyncio.run(create_db())
 
 
 

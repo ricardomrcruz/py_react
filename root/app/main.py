@@ -2,14 +2,12 @@ from fastapi import FastAPI, HTTPException
 from sqlalchemy.ext.asyncio import async_sessionmaker
 from typing import Optional, List, Annotated
 from pydantic import BaseModel
-from db.repositories import CRUD
-from db.database import engine
-from db.models import Product
-from db.schemas import Product
-from db.create_db import create_db
+from app.db.repositories import CRUD
+from app.db.database import engine
+from app.db.models import Product
+from app.db.create_db import create_db
+from app.db.schemas import User, Product, Category, ProductByCategory, Market, UserResearch, UserCreate, User
 from http import HTTPStatus
-
-# from app.db.schemas import User, Product, Category, ProductByCategory, Market, UserResearch, UserCreate, User
 
 app = FastAPI(title="API", description="api test", docs_url="/")
 
