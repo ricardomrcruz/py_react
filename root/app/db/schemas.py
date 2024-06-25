@@ -1,7 +1,8 @@
-from pydantic import BaseModel, EmailStr
-
+from pydantic import BaseModel, EmailStr, ConfigDict
+from datetime import datetime
 
 class Product(BaseModel):
+    
     title: str
     price: int
     img: str
@@ -9,14 +10,13 @@ class Product(BaseModel):
     url: str
     rating: str | None = None
     state: str | None = None
+    date_created: datetime
 
     class Config:
         orm_mode = True
 
-
 class Category(BaseModel):
     name: str
-
 
 class ProductByCategory(BaseModel):
     product_id: int

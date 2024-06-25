@@ -1,14 +1,15 @@
 from typing import List
-from sqlalchemy import Text, Integer, String, ForeignKey, Table
-from sqlalchemy.orm import Mapped, mapped_column, relationship, datetime
-from app.db import Base
+from sqlalchemy import Text, Integer, String, ForeignKey, Table, Column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from .database import Base
+from datetime import datetime 
 
 
 product_category_table = Table(
     "product_category",
     Base.metadata,
-    mapped_column("product_id", Integer, ForeignKey("products.id")),
-    mapped_column("category_id", Integer, ForeignKey("categories_id")),
+    Column("product_id", Integer, ForeignKey("products.id")),
+    Column("category_id", Integer, ForeignKey("categories.id")),
 )
 
 
