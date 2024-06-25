@@ -3,6 +3,7 @@ from datetime import datetime
 
 class Product(BaseModel):
     
+    id:str
     title: str
     price: int
     img: str

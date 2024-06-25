@@ -15,9 +15,12 @@ session = async_sessionmaker(bind=engine, expire_on_commit=False)
 
 db = CRUD()
 
-@app.get("/products")
+@app.get("/products" ,response_model=List[Product])
 async def get_all_products():
     products = await db.get_all(session)
+     
+    if products is None:
+        return []
 
     return products
 
