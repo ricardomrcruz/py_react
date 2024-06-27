@@ -1,29 +1,28 @@
 from typing import List
-from sqlalchemy import Text, Integer, String, ForeignKey, Table, Column
+from sqlalchemy import Text, Integer, String, ForeignKey, Table, Column, func, DateTime
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.database import Base
-from datetime import datetime 
-
-
-product_category_table = Table(
-    "product_category",
-    Base.metadata,
-    Column("product_id", Integer, ForeignKey("products.id")),
-    Column("category_id", Integer, ForeignKey("categories.id")),
-)
+from datetime import datetime
+import uuid
 
 
 class Product(Base):
     __tablename__ = "products"
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
+    )
     title: Mapped[str] = mapped_column(String, index=True)
     price: Mapped[int] = mapped_column(Integer)
     img: Mapped[str] = mapped_column(String)
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
     url: Mapped[str] = mapped_column(String)
     rating: Mapped[str | None] = mapped_column(String, nullable=True)
-    date_created: Mapped[datetime] = mapped_column(default=datetime.utcnow)
+    state: Mapped[str | None] = mapped_column(String, nullable=True)
+    date_created: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
 
     category_id: Mapped[int | None] = mapped_column(
         ForeignKey("categories.id"), nullable=True
@@ -42,6 +41,14 @@ class Category(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     name: Mapped[str] = mapped_column(String, index=True, unique=True)
     products: Mapped[List[Product]] = relationship("Product", back_populates="category")
+
+
+product_category_table = Table(
+    "product_category",
+    Base.metadata,
+    Column("product_id", UUID(as_uuid=True), ForeignKey("products.id")),
+    Column("category_id", Integer, ForeignKey("categories.id")),
+)
 
 
 class User(Base):

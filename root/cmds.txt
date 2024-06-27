@@ -1,9 +1,13 @@
-ricardo@MSI MINGW64 /g/desktop/techwatch/root (main)
+/g/desktop/techwatch/root (main)
 $ py -m app.db.create_db
 
 
-ricardo@MSI MINGW64 /g/desktop/techwatch/root (main)
+/g/desktop/techwatch/root (main)
 $ uvicorn app.main:app --reload
+
+
+/g/desktop/techwatch/root (main)
+$ source venv/Scripts/activate
 
 
 

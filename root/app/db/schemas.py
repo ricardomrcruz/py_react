@@ -1,10 +1,11 @@
 from pydantic import BaseModel, EmailStr, ConfigDict
 from datetime import datetime
+import uuid
 
 
 class Product(BaseModel):
 
-    id: str
+    id: uuid.UUID
     title: str
     price: int
     img: str
@@ -37,6 +38,7 @@ class CreateProductModel(BaseModel):
                 "description": "",
                 "rating": "5 in 5",
                 "url": "https://www.amazon.com/Lenovo-IdeaPad-Celeron-Storage-Graphics/dp/B0CK66T68X",
+                "state": "New",
             }
         },
     )

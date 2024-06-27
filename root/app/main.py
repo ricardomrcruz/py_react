@@ -4,7 +4,7 @@ from typing import Optional, List, Annotated
 from pydantic import BaseModel
 from app.db.repositories import CRUD
 from app.db.database import engine
-from app.db.models import Product
+from app.db.models import Product as DBProduct
 from app.db.create_db import create_db
 from app.db.schemas import (
     User,
@@ -39,8 +39,7 @@ async def get_all_products():
 
 @app.post("/products", status_code=HTTPStatus.CREATED)
 async def create_product(product_data: CreateProductModel):
-    new_product = Product(
-        id=str(uuid.uuid4()),
+    new_product = DBProduct(
         title=product_data.title,
         price=product_data.price,
         img=product_data.img,
