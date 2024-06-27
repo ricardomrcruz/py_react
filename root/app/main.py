@@ -6,8 +6,19 @@ from app.db.repositories import CRUD
 from app.db.database import engine
 from app.db.models import Product
 from app.db.create_db import create_db
-from app.db.schemas import User, Product, Category, ProductByCategory, Market, UserResearch, UserCreate, User
+from app.db.schemas import (
+    User,
+    Product,
+    CreateProductModel,
+    Category,
+    ProductByCategory,
+    Market,
+    UserResearch,
+    UserCreate,
+    User,
+)
 from http import HTTPStatus
+import uuid
 
 app = FastAPI(title="API", description="api test", docs_url="/")
 
@@ -15,26 +26,44 @@ session = async_sessionmaker(bind=engine, expire_on_commit=False)
 
 db = CRUD()
 
-@app.get("/products" ,response_model=List[Product])
+
+@app.get("/products", response_model=List[Product])
 async def get_all_products():
     products = await db.get_all(session)
-     
+
     if products is None:
         return []
 
     return products
 
-@app.post("/products")
-async def create_product():
-    pass
+
+@app.post("/products", status_code=HTTPStatus.CREATED)
+async def create_product(product_data: CreateProductModel):
+    new_product = Product(
+        id=str(uuid.uuid4()),
+        title=product_data.title,
+        price=product_data.price,
+        img=product_data.img,
+        description=product_data.description,
+        url=product_data.url,
+        rating=product_data.rating,
+        state=product_data.state,
+    )
+
+    product = await db.add(session, new_product)
+
+    return product
+
 
 @app.get("/product/{product_id}")
 async def get_product_by_id(product_id):
     pass
 
+
 @app.patch("/product/{product_id}")
 async def update_product_by_id(product_id):
     pass
+
 
 @app.delete("/product/{product_id}")
 async def delete_product_by_id():
