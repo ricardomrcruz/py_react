@@ -10,7 +10,7 @@ class CRUD:
 
             result = await session.execute(statement)
 
-            return result.scalar()
+            return result.scalars()
 
     async def add(
         self, async_session: async_sessionmaker[AsyncSession], product: Product
@@ -18,6 +18,8 @@ class CRUD:
         async with async_session() as session:
             session.add(product)
             await session.commit()
+
+            return product
 
     async def get_by(
         self, async_session: async_sessionmaker[AsyncSession], product_id: str
@@ -50,5 +52,7 @@ class CRUD:
         self, async_session: async_sessionmaker[AsyncSession], product: Product
     ):
         async with async_session() as session:
-            session.delete(product)
+            await session.delete(product)
             await session.commit()
+
+        return {}
