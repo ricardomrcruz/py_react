@@ -1,0 +1,138 @@
+// Define a function to encode a file's content in base64
+function encodeFileBase64($filePath) {
+    // Read the file content
+    $fileContent = file_get_contents($filePath);
+    
+    // If reading the file failed, throw an exception
+    if ($fileContent === false) {
+        throw new Exception("Erreur lors du téléchargement de l'image.");
+    }
+    
+    // Return the base64-encoded file content
+    return base64_encode($fileContent);
+}
+
+// Define a function to perform an HTTP POST request with given parameters and save the response
+function sendApiRequest($productId, $licenseKey, $productInfo, $additionalInstructions, $base64Image, $keywords) {
+    // URL of the API endpoint
+    $apiUrl = "https://skynet-seo.ai/api/demande.php";
+    
+    // Prepare the POST data
+    $postData = [
+        "license_key" => $licenseKey,
+        "prompt" => $productInfo,
+        "additional_instructions" => $additionalInstructions,
+        "image" => $base64Image,
+        "motcles" => $keywords
+    ];
+    
+    // Initialize cURL
+    $curlHandle = curl_init($apiUrl);
+    curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curlHandle, CURLOPT_POST, true);
+    curl_setopt($curlHandle, CURLOPT_POSTFIELDS, json_encode($postData));
+    curl_setopt($curlHandle, CURLOPT_HTTPHEADER, [
+        "Content-Type: application/json",
+        "Referer: " . $_SERVER["HTTP_HOST"]
+    ]);
+    
+    // Execute the cURL request and get the response
+    $apiResponse = curl_exec($curlHandle);
+    
+    // If there's an error, throw an exception
+    if (curl_errno($curlHandle)) {
+        throw new Exception("Erreur cURL: " . curl_error($curlHandle));
+    }
+    
+    // Close the cURL handle
+    curl_close($curlHandle);
+    
+    // Decode the JSON response
+    $decodedResponse = json_decode($apiResponse, true);
+    
+    // Save the response to a file
+    $jsonDirectory = PS_MODULE_DIR . "skynetliteseo/json/";
+    if (!is_dir($jsonDirectory)) {
+        mkdir($jsonDirectory, 0755, true);
+    }
+    $jsonFilePath = $jsonDirectory . "rep-" . $productId . ".json";
+    file_put_contents($jsonFilePath, $apiResponse);
+    
+    // Return the decoded response
+    return $decodedResponse;
+}
+
+// Define a function to save data to a JSON file
+function saveDataToJsonFile($fileName, $data) {
+    // Directory to save the JSON file
+    $jsonDirectory = PS_MODULE_DIR_ . "skynetliteseo/json/";
+    if (!is_dir($jsonDirectory)) {
+        mkdir($jsonDirectory, 0755, true);
+    }
+    
+    // Path to the JSON file
+    $jsonFilePath = $jsonDirectory . $fileName . ".json";
+    
+    // Save the data to the JSON file
+    file_put_contents($jsonFilePath, json_encode($data));
+    
+    // Return the file path
+    return $jsonFilePath;
+}
+
+// Ensure a constant is defined before proceeding
+if (!defined("_PS_VERSION_")) {
+    exit;
+}
+
+// Main logic starts here
+$productInfo = Tools::getValue("product_info");
+$keywords = Tools::getValue("motcles");
+$imageUrls = json_decode(Tools::getValue("image_urls"), true);
+$productId = (int) Tools::getValue("id_product");
+$firstImageUrl = !empty($imageUrls) ? $imageUrls[0] : '';
+$licenseKey = Configuration::get("SKYNETLITESEO_LICENSE_KEY");
+$additionalInstructions = Configuration::get("SKYNETLITESEO_ADDITIONAL_INSTRUCTIONS");
+
+// Remove certain characters from a string
+function cleanString($string) {
+    $string = preg_replace('/[\x00-\x1F\x7F]/u', '', $string);
+    $string = str_replace(["<\\", "\x8", "\xc"], ["<\\\\", "\x5cf", "\x5cb"], $string);
+    return $string;
+}
+
+// Main execution block
+try {
+    // Encode the image URL in base64
+    $base64Image = encodeFileBase64($firstImageUrl);
+    
+    // Prepare the data for the API request
+    $requestData = [
+        "product_id" => $productId,
+        "product_info" => $productInfo,
+        "license_key" => $licenseKey,
+        "additional_instructions" => $additionalInstructions,
+        "image_base64" => $base64Image,
+        "motcles" => $keywords
+    ];
+    
+    // Save the data to a JSON file
+    $jsonFilePath = saveDataToJsonFile($productId, $requestData);
+    
+    // Send the API request and get the response
+    $apiResponse = sendApiRequest($productId, $licenseKey, $productInfo, $additionalInstructions, $base64Image, $keywords);
+    
+    // If the API response indicates success, save the response data to the file
+    if (!isset($apiResponse["success"]) || !$apiResponse["success"]) {
+        throw new Exception("Erreur de l'API externe: " . ($apiResponse["error"] ?? "Erreur inconnue"));
+    }
+    
+    $requestData["api_response"] = $apiResponse["data"];
+    file_put_contents($jsonFilePath, json_encode($requestData));
+    
+    // Output success response
+    echo json_encode(["success" => true, "data" => $apiResponse["data"]]);
+} catch (Exception $exception) {
+    // Output error response
+    echo json_encode(["success" => false, "error" => $exception->getMessage()]);
+}

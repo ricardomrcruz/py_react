@@ -56,13 +56,19 @@ async def create_product(product_data: CreateProductModel):
 
 @app.get("/product/{product_id}")
 async def get_product_by_id(product_id):
-    pass
+    product = await db.get_product_by(session, product_id)
+
+    if product is None:
+        return "Product non existent."
+
+    return product
 
 
 @app.patch("/product/{product_id}")
-async def update_product_by_id(product_id):
-    pass
+async def update_product(product_id: str, data: CreateProductModel):
+    product = await db.update_product_by(session, product_id, data=data)
 
+    return product
 
 @app.delete("/product/{product_id}")
 async def delete_product_by_id():

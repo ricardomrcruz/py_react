@@ -21,7 +21,7 @@ class CRUD:
 
             return product
 
-    async def get_by(
+    async def get_product_by(
         self, async_session: async_sessionmaker[AsyncSession], product_id: str
     ):
         async with async_session() as session:
@@ -30,7 +30,7 @@ class CRUD:
             result = await session.execute(statement)
             return result.scalars().one()
 
-    async def update(
+    async def update_product_by(
         self, async_session: async_sessionmaker[AsyncSession], product_id, data
     ):
         async with async_session() as session:
