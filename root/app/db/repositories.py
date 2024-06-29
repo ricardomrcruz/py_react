@@ -34,7 +34,11 @@ class CRUD:
         self, async_session: async_sessionmaker[AsyncSession], product_id, data
     ):
         async with async_session() as session:
-            product = await self.get_by_id(session, product_id)
+            statement = select(Product).filter(Product.id == product_id)
+
+            result = await session.execute(statement)
+
+            product = result.scalars().one()
 
             product.title = data["title"]
             product.price = data["price"]
@@ -42,7 +46,8 @@ class CRUD:
             product.description = data["description"]
             product.url = data["url"]
             product.rating = data["rating"]
-            product.categories = data["categories"]
+            product.state = data["state"]
+            # product.categories = data["categories"]
 
             await session.commit()
 
