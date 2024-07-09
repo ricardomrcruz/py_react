@@ -36,4 +36,6 @@ async def index(request: Request, hx_request: Annotated[str | None, Header()] = 
         {"name": "Pulp Fiction", "director": "Quentin Tarantino"},
     ]
     context = {"request": request, "films": films}
+    if hx_request:
+        return templates.TemplateResponse("table.html", context)
     return templates.TemplateResponse("index.html", context)
