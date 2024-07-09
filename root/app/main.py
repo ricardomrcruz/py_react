@@ -1,5 +1,5 @@
 import os
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request, HTTPException, Header
 from sqlalchemy.ext.asyncio import async_sessionmaker
 from typing import Optional, List, Annotated
 from http import HTTPStatus
@@ -27,6 +27,13 @@ templates = Jinja2Templates(directory="app/templates")
 app.include_router(api_endpoints.router, prefix="/api/v1", tags=["api"])
 
 
-@app.get("/index")
-async def root(request: Request):
-    return templates.TemplateResponse(request=request, name="index.html")
+@app.get("/index", response_class=HTMLResponse)
+async def index(request: Request, hx_request: Annotated[str | None, Header()] = None):
+    films = [
+        {"name": "Blade Runner", "director": "Ridley Scott"},
+        {"name": "Inception", "director": "Christopher Nolan"},
+        {"name": "The Matrix", "director": "Lana Wachowski"},
+        {"name": "Pulp Fiction", "director": "Quentin Tarantino"},
+    ]
+    context = {"request": request, "films": films}
+    return templates.TemplateResponse("index.html", context)
