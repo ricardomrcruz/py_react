@@ -14,7 +14,7 @@ from app.router.api_v1 import endpoints as api_endpoints
 from fastapi.responses import HTMLResponse
 
 
-app = FastAPI(title="API", description="api test", docs_url="/")
+app = FastAPI(title="API", description="api test", docs_url="/docs")
 
 db = CRUD()
 
@@ -27,8 +27,13 @@ templates = Jinja2Templates(directory="app/templates")
 app.include_router(api_endpoints.router, prefix="/api/v1", tags=["api"])
 
 
-@app.get("/index", response_class=HTMLResponse)
-async def index(request: Request, hx_request: Annotated[str | None, Header()] = None):
+@app.get("/", response_class=HTMLResponse)
+async def index(request: Request):
+    return templates.TemplateResponse({"request": request}, name="index.html")
+
+
+@app.get("/test", response_class=HTMLResponse)
+async def index2(request: Request, hx_request: Annotated[str | None, Header()] = None):
     films = [
         {"name": "Blade Runner", "director": "Ridley Scott"},
         {"name": "Inception", "director": "Christopher Nolan"},
@@ -37,5 +42,5 @@ async def index(request: Request, hx_request: Annotated[str | None, Header()] = 
     ]
     context = {"request": request, "films": films}
     if hx_request:
-        return templates.TemplateResponse("table.html", context)
-    return templates.TemplateResponse("index.html", context)
+        return templates.TemplateResponse("components/table.html", context)
+    return templates.TemplateResponse("index3.html", context)

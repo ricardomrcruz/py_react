@@ -1,0 +1,34 @@
+{% extends "base.html" %} 
+{% block title %}Home Page{% endblock %} 
+{% block content %}
+<div class="w-3/5 p-10 m-auto">
+  <div class="relative overflow-x-auto mb-10">
+    <table
+      class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+    >
+      <thead
+        class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+      >
+        <tr>
+          <th scope="col" class="px-6 py-3">Film name</th>
+          <th scope="col" class="px-6 py-3">Director</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+        {% include 'components/table.html' %}
+      </tbody>
+    </table>
+  </div>
+  <button
+    class="bg-blue-600 p-3 my-5"
+    hx-get="/index"
+    hx-target="#table-body"
+    hx-swap="beforeend"
+  >
+  
+ 
+    Load More Movies
+  </button>
+</div>
+
+{% endblock %}
