@@ -21,17 +21,14 @@
 
     <style>
       body {
-          font-family: 'Manrope', sans-serif;
+        font-family: "Manrope", sans-serif;
       }
-  </style>
+    </style>
     {% block extra_scripts %}{% endblock %}
   </head>
 
   <body class="bg-black">
-    {% include 'components/header.html' %}
-
-    {% block content %} {% endblock %}
-
-    {% include 'components/bottom.html' %}
+    {% include 'components/header.html' %} {% block content %} {% endblock %} {%
+    include 'components/bottom.html' %}
   </body>
 </html>
