@@ -44,3 +44,5 @@ async def index2(request: Request, hx_request: Annotated[str | None, Header()] =
     if hx_request:
         return templates.TemplateResponse("components/table.html", context)
     return templates.TemplateResponse("index3.html", context)
+
+
