@@ -31,6 +31,10 @@ app.include_router(api_endpoints.router, prefix="/api/v1", tags=["api"])
 async def index(request: Request):
     return templates.TemplateResponse({"request": request}, name="index.html")
 
+@app.get("/dashboard", response_class=HTMLResponse)
+async def dashboard(request: Request):
+    return templates.TemplateResponse({"request": request}, name="dashboard.html")
+
 
 @app.get("/test", response_class=HTMLResponse)
 async def index2(request: Request, hx_request: Annotated[str | None, Header()] = None):
