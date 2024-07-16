@@ -1,2 +1,32 @@
 {% extends "base.html" %} {% block title %}Mark3ts{% endblock %} {% block
-content %} {% include 'components/navbar.html' %} {% endblock %}
+content %} {# {% include 'components/navbar.html' %} #}
+
+<div class="flex w-full">
+  <div class="w-[25%] bg-[#1e1e1e] h-[100vh] text-white">
+    <div class="mx-14 mt-12">
+      <div class="flex">
+        <img src="../static/img/logo.png" class="w-8 h-8 mx-1" alt="Logo" />
+
+        <h1 class="self-center font-semibold whitespace-nowrap dark:text-white">
+          Mark3ts
+        </h1>
+      </div>
+
+      
+      <div class="flex py-6">
+        <img
+          class="w-14 h-14 rounded-full"
+          src="https://mighty.tools/mockmind-api/content/human/76.jpg"
+          alt="Jese image"
+        />
+        <div class="ps-4 pt-1">
+          <div class="text-md   font-semibold">Katlyn Emmerich</div>
+          <div class="font-normal text-gray-500">kat.emmerin@mark3ts.com</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="w-[75%]"></div>
+</div>
+
+{% endblock %}
