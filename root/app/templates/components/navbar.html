@@ -15,7 +15,7 @@
       <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
         <button
           type="button"
-          class="text-white bg-[#F25E52] hover:bg-gray-700 hover:text-[#F25E52] focus:ring-1 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
+          class="text-white bg-[#007acc] hover:bg-gray-700 hover:text-[#007acc] focus:ring-1 focus:outline-none hover:focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
         >
           Sign In
         </button>
@@ -62,12 +62,14 @@
           </li>
           <li>
             <a
-              class="block py-2 px-3 text-gray-300 rounded md:hover:text-white md:p-0"
+              class="flex py-2 px-3 text-gray-300 rounded md:hover:text-white md:p-0 "
               hx-get="/dropdown-feat"
               hx-target="#dropdown"
               hx-trigger="mouseenter"
               hx-swap="innerHTML"
-              >Features</a
+              ><span>Features</span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down mt-1 ml-1" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/>
+              </svg></a
             >
           </li>
           <li>
@@ -89,8 +91,10 @@
               hx-target="#dropdown"
               hx-trigger="mouseenter"
               hx-swap="innerHTML"
-              class="block py-2 px-3 text-gray-300 rounded md:hover:text-white md:p-0"
-              >About</a
+              class="flex py-2 px-3 text-gray-300 rounded md:hover:text-white md:p-0"
+              ><span>About</span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down mt-1 ml-1" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/>
+              </svg></a
             >
           </li>
         </ul>
