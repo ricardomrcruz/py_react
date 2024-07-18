@@ -1,0 +1,47 @@
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities;  */
+
+/* theme */
+.bg-color1 { background-color: #007acc !important; }
+.bg-color2 { background-color: #3e3e42 !important; }
+.bg-color3 { background-color: #2d2d30 !important; }
+.bg-color4 { background-color: #252526 !important; }
+.bg-color5 { background-color: #1e1e1e !important; }
+
+.text-color1 { color: #007acc !important; }
+.text-color2 { color: #3e3e42 !important; }
+.text-color3 { color: #2d2d30 !important; }
+.text-color4 { color: #252526 !important; }
+.text-color5 { color: #1e1e1e !important; }
+
+body {
+  font-family: "Manrope", sans-serif;
+}
+.bg-fixed {
+  background-attachment: fixed;
+}
+html {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+html::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+@keyframes slow-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+
+.animate-slow-pulse {
+  animation: slow-pulse 30s infinite;
+}
+
+

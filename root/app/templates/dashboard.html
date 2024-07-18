@@ -2,7 +2,7 @@
 content %}
 
 <div class="flex w-full">
-  <div class="w-[25%] bg-[#0f0f0f] h-[100vh] text-white">
+  <div class="w-[22%] bg-[#0f0f0f] h-[100vh] text-white">
     <div class="mx-14 mt-12">
       <div class="flex p-3 w-full justify-between">
         <div class="flex">
@@ -135,7 +135,7 @@ content %}
                   </svg>
                 </div>
               </li>
-              <li class="flex">
+              <li class="flex mt-1">
                 <ul>
                   <li class="text-md py-1 px-4 hover:bg-black rounded-md">
                     god of war ps5 game
@@ -172,7 +172,7 @@ content %}
 
                 <span class="text-lg">API</span>
               </li>
-              <li class="px-4 py-2 hover:bg-black rounded-xl flex">
+              <a href="/" class="px-4 py-2 hover:bg-black rounded-xl flex">
                 <svg
                   cclass="w-5 h-5 mr-2 mt-1 text-gray-500 transition duration-75"
                   aria-hidden="true"
@@ -192,14 +192,67 @@ content %}
                 </svg>
 
                 <span class="text-lg">Logout</span>
-              </li>
+              </a>
             </div>
           </div>
         </ul>
       </div>
     </div>
   </div>
-  <div class="w-[75%]"></div>
+
+  <!-- main part of the screen -->
+  <div class="w-[78%]">
+    <div class="mt-36 max-w-md mx-auto">
+      <img
+        src="../static/img/logo.png"
+        class="w-12 h-12 mx-auto mb-5"
+        alt="logo"
+      />
+      <h2 class="text-neutral-300 mb-3 m-auto">
+        Find the Best Deals Across the Web.
+      </h2>
+      <form>
+        <label
+          for="default-search"
+          class="mb-2 text-sm font-medium text-gray-900 sr-only"
+          >Search Products</label
+        >
+        <div class="relative">
+          <div
+            class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+          >
+            <svg
+              class="w-4 h-4 text-gray-300"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 20 20"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+              />
+            </svg>
+          </div>
+          <input
+            type="search"
+            id="default-search"
+            class="block w-full p-4 ps-10 text-md text-white border border-gray-500 rounded-lg bg-color4 focus:outline-none focus:ring-1 focus:ring-gray-600 focus:border-gray-600"
+            placeholder="Search Your Electronics, Sneakers, ..."
+          />
+          <button
+            type="submit"
+            class="text-white absolute end-2.5 bottom-2.5 bg-color1 hover:bg-blue-8s00 focus:ring-1 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
+          >
+            Search
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
