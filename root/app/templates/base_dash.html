@@ -27,27 +27,12 @@
       body {
         font-family: "Manrope", sans-serif;
       }
-      .bg-fixed {
-        background-attachment: fixed;
-      }
-      html {
-        scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none; /* Internet Explorer 10+ */
-      }
-
-      html::-webkit-scrollbar {
-        display: none; /* Safari and Chrome */
-      }
     </style>
     {% block extra_scripts %}{% endblock %}
   </head>
-  <!-- min-h-screen in the body class if needed -->
-  <body class="relative bg-black">
-    <div
-      class="fixed inset-0 -z-10 h-full w-full bg-fixed [background:radial-gradient(125%_125%_at_50%_10%,#000_54%,#003d66_100%)]"
-    ></div>
-    {% include 'components/header.html' %}
-    <div class="relative z-0">{% block content %} {% endblock %}</div>
-    {% include 'components/bottom.html' %}
+
+  <body class="bg-black ">
+    {% include 'components/header.html' %} {% block content %} {% endblock %} {%
+    include 'components/bottom.html' %}
   </body>
 </html>
