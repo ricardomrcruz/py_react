@@ -39,9 +39,24 @@ html::-webkit-scrollbar {
   }
 }
 
-
+/* slower bg animation hero landing page */
 .animate-slow-pulse {
-  animation: slow-pulse 30s infinite;
+  animation: slow-pulse 15s infinite;
 }
 
+/* line clamps */
+@layer utilities {
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+  }
 
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+  }
+}
