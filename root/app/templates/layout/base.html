@@ -28,10 +28,9 @@
   <!-- min-h-screen in the body class if needed -->
   <body class="relative bg-black">
     <div
-      class="fixed inset-0 -z-10 h-full w-full bg-fixed [background:radial-gradient(125%_125%_at_50%_10%,#000_54%,#003d66_100%)] animate-slow-pulse"
+      class="fixed inset-0 -z-10 h-full w-full bg-fixed [background:radial-gradient(125%_125%_at_50%_10%,#000_50%,#003d66_100%)] animate-slow-pulse"
     ></div>
-    {% include 'components/header.html' %}
+
     <div class="relative z-0">{% block content %} {% endblock %}</div>
-    {% include 'components/bottom.html' %}
   </body>
 </html>

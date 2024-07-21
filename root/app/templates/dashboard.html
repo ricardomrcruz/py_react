@@ -1,8 +1,9 @@
-{% extends "base_dash.html" %} {% block title %}Mark3ts{% endblock %} {% block
-content %}
+{% extends "./layout/base_dash.html" %} {% block title %}Mark3ts{% endblock %}
+{% block content %}
 
-<div class="flex w-full">
-  <div class="w-[22%] bg-[#0f0f0f] h-[100vh] text-white">
+<div class="flex w-full h-screen">
+  <!-- sidebar -->
+  <div class="w-[22%] bg-[#0f0f0f] text-white">
     <div class="mx-14 mt-12">
       <div class="flex p-3 w-full justify-between">
         <div class="flex">
@@ -201,7 +202,7 @@ content %}
   </div>
 
   <!-- main part of the screen -->
-  <div class="w-[78%]">
+  <div class="w-[78%] overflow-y-auto no-scrollbar">
     <!-- search bar block -->
     <div class="mt-36 max-w-md mx-auto">
       <img
@@ -269,99 +270,7 @@ content %}
 
     <!-- cards -->
     <div class="w-[80%] flex mt-6 flex-wrap justify-between gap-8 m-auto">
-      <div>
-        <a
-          href="#"
-          class="flex flex-col items-center border rounded-md shadow md:flex-row md:max-w-xl border-gray-700 bg-black hover:bg-[#0a0a0a]"
-        >
-          <img
-            class="object-cover w-full rounded-t-lg h-104 md:h-auto md:w-56 md:rounded-none md:rounded-s-lg"
-            src="../static/img/placeholder.webp"
-            alt=""
-          />
-          <div class="flex flex-col justify-between p-4 leading-normal">
-            <h5
-              class="mb-2 text-xl font-bold tracking-tight text-gray-100 line-clamp-2"
-            >
-              RetroArcade Ultimate 3000 Video Game Console
-            </h5>
-            <p class="mb-3 font-normal text-gray-400 text-sm line-clamp-3">
-              Experience nostalgia with the RetroArcade Ultimate 3000, a video
-              game console that brings back the classic games from the '80s and
-              '90s. Featuring a sleek design, HDMI output, and two wireless
-              controllers, this console comes pre-loaded with over 500 retro
-              games. Perfect for both seasoned gamers and newcomers looking to
-              enjoy timeless classics, the RetroArcade Ultimate 3000 offers
-              hours of entertainment for the whole family.
-            </p>
-            <div class="flex">
-              <span class="text-white text-2xl">200€</span>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div>
-        <a
-          href="#"
-          class="flex flex-col items-center border rounded-md shadow md:flex-row md:max-w-xl border-gray-700 bg-black hover:bg-[#0a0a0a]"
-        >
-          <img
-            class="object-cover w-full rounded-t-lg h-104 md:h-auto md:w-56 md:rounded-none md:rounded-s-lg"
-            src="../static/img/placeholder.webp"
-            alt=""
-          />
-          <div class="flex flex-col justify-between p-4 leading-normal">
-            <h5
-              class="mb-2 text-xl font-bold tracking-tight text-gray-100 line-clamp-2"
-            >
-              RetroArcade Ultimate 3000 Video Game Console
-            </h5>
-            <p class="mb-3 font-normal text-gray-400 text-sm line-clamp-3">
-              Experience nostalgia with the RetroArcade Ultimate 3000, a video
-              game console that brings back the classic games from the '80s and
-              '90s. Featuring a sleek design, HDMI output, and two wireless
-              controllers, this console comes pre-loaded with over 500 retro
-              games. Perfect for both seasoned gamers and newcomers looking to
-              enjoy timeless classics, the RetroArcade Ultimate 3000 offers
-              hours of entertainment for the whole family.
-            </p>
-            <div class="flex">
-              <span class="text-white text-2xl">200€</span>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div>
-        <a
-          href="#"
-          class="flex flex-col items-center border rounded-md shadow md:flex-row md:max-w-xl border-gray-700 bg-black hover:bg-[#0a0a0a]"
-        >
-          <img
-            class="object-cover w-full rounded-t-lg h-104 md:h-auto md:w-56 md:rounded-none md:rounded-s-lg"
-            src="../static/img/placeholder.webp"
-            alt=""
-          />
-          <div class="flex flex-col justify-between p-4 leading-normal">
-            <h5
-              class="mb-2 text-xl font-bold tracking-tight text-gray-100 line-clamp-2"
-            >
-              RetroArcade Ultimate 3000 Video Game Console
-            </h5>
-            <p class="mb-3 font-normal text-gray-400 text-sm line-clamp-3">
-              Experience nostalgia with the RetroArcade Ultimate 3000, a video
-              game console that brings back the classic games from the '80s and
-              '90s. Featuring a sleek design, HDMI output, and two wireless
-              controllers, this console comes pre-loaded with over 500 retro
-              games. Perfect for both seasoned gamers and newcomers looking to
-              enjoy timeless classics, the RetroArcade Ultimate 3000 offers
-              hours of entertainment for the whole family.
-            </p>
-            <div class="flex">
-              <span class="text-white text-2xl">200€</span>
-            </div>
-          </div>
-        </a>
-      </div>
+      {% include 'components/product_card.html' %}
     </div>
   </div>
 </div>

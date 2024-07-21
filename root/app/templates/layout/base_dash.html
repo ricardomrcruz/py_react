@@ -27,12 +27,28 @@
       body {
         font-family: "Manrope", sans-serif;
       }
+
+      /* Hide scrollbar for Chrome, Safari, and Opera */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* Hide scrollbar for IE, Edge, and Firefox */
+      .no-scrollbar {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+      }
+
+      /* Additional CSS for more consistent results */
+      .no-scrollbar {
+        overflow: -moz-scrollbars-none;
+        -ms-overflow-style: none;
+      }
     </style>
     {% block extra_scripts %}{% endblock %}
   </head>
 
   <body class="bg-black">
-    {% include 'components/header.html' %} {% block content %} {% endblock %} {%
-    include 'components/bottom.html' %}
+    {% block content %} {% endblock %}
   </body>
 </html>
