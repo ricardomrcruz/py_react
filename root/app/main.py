@@ -37,5 +37,11 @@ async def index(request: Request):
 async def dashboard(request: Request):
     return templates.TemplateResponse({"request": request}, name="dashboard.html")
 
+@app.get("/signin", response_class=HTMLResponse)
+async def dashboard(request: Request):
+    return templates.TemplateResponse({"request": request}, name="login.html")
+
+
+
 
 
