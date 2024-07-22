@@ -1,8 +1,8 @@
 {% extends "./layout/base_dash.html" %} {% block title %}Mark3ts{% endblock %}
 {% block content %}
-
+<!-- background -->
 <div
-  class="absolute top-0 z-[-2] h-screen w-screen bg-black bg-[radial-gradient(#ffffff33_1px,#000000_1px)] bg-[size:20px_20px] animate-slow-pulse opacity-9"
+  class="absolute top-0 z-[-2] h-screen w-screen bg-black bg-[radial-gradient(#ffffff33_1px,#000000_1px)] bg-[size:20px_20px]"
 ></div>
 
 <div class="mt-44 max-w-md mx-auto">
@@ -12,7 +12,9 @@
     <h2 class="text-lg">Find the Best Deals Across the Web.</h2>
   </div>
 </div>
-<form class="mt-8 max-w-sm mx-auto">
+
+<!-- login form -->
+<form hx-get="/signin" class="mt-8 max-w-sm mx-auto">
   <div class="mb-5">
     <label
       for="email"
