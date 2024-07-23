@@ -1,4 +1,4 @@
-from app.db.models import Product
+from app.db.models import Product, User
 from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession
 from sqlalchemy import select
 
@@ -61,3 +61,13 @@ class CRUD:
             await session.commit()
 
         return {}
+    
+    
+    
+    async def get_all_users(self, async_session: async_sessionmaker[AsyncSession]):
+        async with async_session() as session:
+            statement = select(User).order_by(User.id)
+
+            result = await session.execute(statement)
+
+            return result.scalars().all()

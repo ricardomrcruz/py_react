@@ -1,14 +1,9 @@
-import os
-from fastapi import FastAPI, Request, HTTPException, Header, Form
+from fastapi import FastAPI, Request, Header, Form, Depends
 from sqlalchemy import select, insert
-from sqlalchemy.ext.asyncio import async_sessionmaker
-from typing import Optional, List, Annotated
-from http import HTTPStatus
+from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession
+from typing import List
 from app.db.repositories import CRUD
 from app.db.database import engine
-from app.db.models import Product as DBProduct
-from app.db.create_db import create_db
-from pydantic import BaseModel
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from app.router.api_v1 import endpoints as api_endpoints
@@ -16,14 +11,17 @@ from fastapi.responses import HTMLResponse, RedirectResponse, Response
 from app.router import htmx_components
 from app.auth import AuthHandler, RequiresLoginException
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.db.models import User
+from app.db.models import User as Userdb, Product as DBProduct
 from app.db.database import engine
+from app.db.schemas import User, UserOut
 from datetime import datetime, timezone
 import logging
 
 app = FastAPI(title="API", description="api test", docs_url="/docs")
 
 db = CRUD()
+session = async_sessionmaker(bind=engine, expire_on_commit=False)
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -41,42 +39,40 @@ async def exception_handler(request: Request, exc: RequiresLoginException) -> Re
 
 
 @app.middleware("http")
-async def create_auth_header(request:Request, call_next):
-    '''
-    Checks if there are cookies set for authorization. If so, contruct 
-    the authorization header and modify the request (unless the header 
+async def create_auth_header(request: Request, call_next):
+    """
+    Checks if there are cookies set for authorization. If so, contruct
+    the authorization header and modify the request (unless the header
     already exists!)
-    '''
-    if ("Authorization" not in request.headers
-        and "Authorization" in request.cookies):
+    """
+    if "Authorization" not in request.headers and "Authorization" in request.cookies:
         access_token = request.cookies["Authorization"]
-        
+
         request.headers.__dict__["_list"].append(
             (
                 "authorization".encode(),
                 f"Bearer{access_token}".encode(),
-                                       
             )
         )
-    elif ("Authorization" not in request.headers
-        and "Authorization" not in request.cookies):
+    elif (
+        "Authorization" not in request.headers
+        and "Authorization" not in request.cookies
+    ):
         request.headers.__dict__["_list"].append(
             (
                 "authorization".encode(),
                 f"Bearer 1234".encode(),
-                                       
             )
         )
-        
+
     response = await call_next(request)
     return response
-        
 
 
 # API routes
 app.include_router(api_endpoints.router, prefix="/api/v1", tags=["api"])
-app.include_router(htmx_components.router)
-    
+app.include_router(htmx_components.router, tags=["htmx"])
+
 
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
@@ -88,69 +84,118 @@ async def dashboard(request: Request):
     return templates.TemplateResponse({"request": request}, name="dashboard.html")
 
 
+@app.get("/users", response_model=List[UserOut])
+async def get_all_users():
+    async with AsyncSession(engine) as session:
+        result = await session.execute(select(Userdb))
+        return result.scalars().all()
+
+
 @app.get("/signin", response_class=HTMLResponse)
 async def dashboard(request: Request):
     return templates.TemplateResponse({"request": request}, name="login.html")
 
+
 @app.post("/register/", response_class=HTMLResponse)
-async def register(request:Request, username:str=Form(...), email: str = Form(...), password: str=Form(...)):
+async def register(
+    request: Request,
+    username: str = Form(...),
+    email: str = Form(...),
+    password: str = Form(...),
+):
     async with AsyncSession(engine) as session:
         hashed_password = auth_handler.get_hash_password(password)
         current_time = datetime.now(timezone.utc)
-        query = insert(User).values(username=username, email = email, hashed_password = hashed_password, is_active=True, is_admin=False, updated_at=current_time )
+        query = insert(User).values(
+            username=username,
+            email=email,
+            hashed_password=hashed_password,
+            is_active=True,
+            is_admin=False,
+            updated_at=current_time,
+        )
         await session.execute(query)
         await session.commit()
-        
-        response= templates.TemplateResponse("index.html",
-                {"request":request, "success_msg":"Registration Successful!",
-                 "path_route":'/', "path_msg":"Click here to login!"})
+
+        response = templates.TemplateResponse(
+            "index.html",
+            {
+                "request": request,
+                "success_msg": "Registration Successful!",
+                "path_route": "/",
+                "path_msg": "Click here to login!",
+            },
+        )
         return response
-    
+
+
 @app.post("/login")
-async def sign_in(request:Request, response:Response, 
-    email:str = Form(...), password: str =Form(...)):
+async def sign_in(
+    request: Request,
+    response: Response,
+    email: str = Form(...),
+    password: str = Form(...),
+):
     try:
         async with AsyncSession(engine) as session:
             logger.info(f"Attempting to find user with email: {email}")
             # find user mail
-            query = select(User).where(User.email == email )
+            query = select(User).where(User.email == email)
             result = await session.execute(query)
-            user = result.scalar_one_or_none() 
-            
+            user = result.scalar_one_or_none()
+
             if not user:
                 logger.info(f"No user found with email: {email}")
-                return templates.TemplateResponse("login.html", {
-                    "request": request,
-                    "detail": "User not found",
-                    "status_code": 404
-                })
-                
+                return templates.TemplateResponse(
+                    "login.html",
+                    {
+                        "request": request,
+                        "detail": "User not found",
+                        "status_code": 404,
+                    },
+                )
+
             logger.info(f"User found: {user.email}")
-            
-            authenticated_user = await auth_handler.authenticate_user(email,password)
+
+            authenticated_user = await auth_handler.authenticate_user(email, password)
             if authenticated_user:
-                #if user and password verifies create cookie
+                # if user and password verifies create cookie
                 atoken = auth_handler.create_access_token(user.email)
-                logger.info(f"Authentication successful for user: {user.email}. Redirecting to index.")
-                response = RedirectResponse(url="/", status_code=303)
-                # response = templates.TemplateResponse("login.html",
-                #     {"request":request, "USERNAME": user.email, "success_msg":"Welcome back!",
-                #      "path_route": '/private/', "path_msg": "Go to your private page!"})
-                response.set_cookie(key="Authorization", value=f"{atoken}", httponly=True)
+                logger.info(
+                    f"Authentication successful for user: {user.email}. Redirecting to index."
+                )
+                # response = RedirectResponse(url="/", status_code=303)
+                response = templates.TemplateResponse(
+                    "dashboard.html",
+                    {
+                        "request": request,
+                        "USERNAME": user.email,
+                        "success_msg": "Welcome back!",
+                        "path_route": "/private/",
+                        "path_msg": "Go to your private page!",
+                    },
+                )
+                response.set_cookie(
+                    key="Authorization", value=f"{atoken}", httponly=True
+                )
                 return response
             else:
                 logger.info(f"Incorrect password for user: {email}")
-                return templates.TemplateResponse("dashboard.html", 
-                {"request":request, 'detail':'Incorrect Username or Password', 'status_code':404})
+                return templates.TemplateResponse(
+                    "index.html",
+                    {
+                        "request": request,
+                        "detail": "Incorrect Username or Password",
+                        "status_code": 404,
+                    },
+                )
     except Exception as err:
         logger.error(f"An unexpected error occurred: {str(err)}")
-        return templates.TemplateResponse("dashboard.html", 
-                {"request":request, 'detail':'Incorrect Username or Password', 'status_code':401})
-        
-
-    
-    
-        
-        
-        
-   
+        return templates.TemplateResponse(
+            "index.html",
+            {
+                "request": request,
+                "detail": "Incorrect Username or Password",
+                "status_code": 401,
+            },
+        )
