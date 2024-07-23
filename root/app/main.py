@@ -38,40 +38,42 @@ async def exception_handler(request: Request, exc: RequiresLoginException) -> Re
 
 
 @app.middleware("http")
-async def create_auth_header(request: Request, call_next):
-    """
-    Checks if there are cookies set for authorization. If so, contruct
-    the authorization header and modify the request (unless the header
+async def create_auth_header(request:Request, call_next):
+    '''
+    Checks if there are cookies set for authorization. If so, contruct 
+    the authorization header and modify the request (unless the header 
     already exists!)
-    """
-    if "Authorization" not in request.headers and "Authorization" in request.cookies:
+    '''
+    if ("Authorization" not in request.headers
+        and "Authorization" in request.cookies):
         access_token = request.cookies["Authorization"]
-
+        
         request.headers.__dict__["_list"].append(
             (
                 "authorization".encode(),
                 f"Bearer{access_token}".encode(),
+                                       
             )
         )
-    elif (
-        "Authorization" not in request.headers
-        and "Authorization" not in request.cookies
-    ):
+    elif ("Authorization" not in request.headers
+        and "Authorization" not in request.cookies):
         request.headers.__dict__["_list"].append(
             (
                 "authorization".encode(),
                 f"Bearer 1234".encode(),
+                                       
             )
         )
-
+        
     response = await call_next(request)
     return response
+        
 
 
 # API routes
 app.include_router(api_endpoints.router, prefix="/api/v1", tags=["api"])
 app.include_router(htmx_components.router)
-
+    
 
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
@@ -87,23 +89,49 @@ async def dashboard(request: Request):
 async def dashboard(request: Request):
     return templates.TemplateResponse({"request": request}, name="login.html")
 
-
 @app.post("/register/", response_class=HTMLResponse)
-async def register(request: Request, email: str = Form(...), password: str = Form(...)):
-
+async def register(request:Request, email: str = Form(...), password: str=Form(...)):
     async with AsyncSession(engine) as session:
         hashed_password = auth_handler.get_hash_password(User.password)
-        query = insert(User).values(email=User.email, hashed_password=hashed_password)
+        query = insert(User).values(email = User.email, hashed_password = hashed_password )
         await session.execute(query)
         await session.commit()
+        
+        response= templates.TemplateResponse("seccess.html",
+                {"request":request, "success_msg":"Registration Successful!",
+                 "path_route":'/', "path_msg":"Click here to login!"})
+        return response
+    
+@app.login("/login/")
+async def sign_in(request:Request, response:Response, 
+    email:str = Form(...), password: str =Form(...)):
+    try:
+        async with AsyncSession(engine) as session:
+            # find user mail
+            query = select(User).values(User.email == email )
+            result = await session.execute(query)
+            user = result.scalar_one_or_none()
+            
+            if await auth_handler.authenticate_user(user.email, user.password):
+                #if user and password verifies create cookie
+                atoken = auth_handler.create_access_token(user.email)
+                response = templates.TemplateResponse("success.html",
+                    {"request":request, "USERNAME": user.email, "success_msg":"Welcome back!",
+                     "path_route": '/private/', "path_msg": "Go to your private page!"})
+                
+                response.set_cookie(key="Authorization", value=f"{atoken}", httponly=True)
+                return response
+            else:
+                return templates.TemplateResponse("error.html", 
+                {"request":request, 'detail':'Incorrect Username or Password', 'status_code':404})
+    except Exception as err:
+        return templates.TemplateResponse("error.html", 
+                {"request":request, 'detail':'Incorrect Username or Password', 'status_code':401})
+        
 
-    response = templates.TemplateResponse(
-        "seccess.html",
-        {
-            "request": request,
-            "success_msg": "Registration Successful!",
-            "path_route": "/",
-            "path_msg": "Click here to login!",
-        },
-    )
-    return response
+    
+    
+        
+        
+        
+   
