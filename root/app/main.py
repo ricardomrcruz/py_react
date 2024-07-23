@@ -1,7 +1,7 @@
 import os
 from fastapi import FastAPI, Request, HTTPException, Header, Form
-
-from sqlalchemy.ext.asyncio import async_sessionmaker, insert
+from sqlalchemy import select, insert
+from sqlalchemy.ext.asyncio import async_sessionmaker
 from typing import Optional, List, Annotated
 from http import HTTPStatus
 from app.db.repositories import CRUD
@@ -15,10 +15,10 @@ from app.router.api_v1 import endpoints as api_endpoints
 from fastapi.responses import HTMLResponse, RedirectResponse, Response
 from app.router import htmx_components
 from app.auth import AuthHandler, RequiresLoginException
-from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.models import User
 from app.db.database import engine
+from datetime import datetime, timezone
 
 
 app = FastAPI(title="API", description="api test", docs_url="/docs")
@@ -90,19 +90,20 @@ async def dashboard(request: Request):
     return templates.TemplateResponse({"request": request}, name="login.html")
 
 @app.post("/register/", response_class=HTMLResponse)
-async def register(request:Request, email: str = Form(...), password: str=Form(...)):
+async def register(request:Request, username:str=Form(...), email: str = Form(...), password: str=Form(...)):
     async with AsyncSession(engine) as session:
-        hashed_password = auth_handler.get_hash_password(User.password)
-        query = insert(User).values(email = User.email, hashed_password = hashed_password )
+        hashed_password = auth_handler.get_hash_password(password)
+        current_time = datetime.now(timezone.utc)
+        query = insert(User).values(username=username, email = email, hashed_password = hashed_password, is_active=True, is_admin=False, updated_at=current_time )
         await session.execute(query)
         await session.commit()
         
-        response= templates.TemplateResponse("seccess.html",
+        response= templates.TemplateResponse("index.html",
                 {"request":request, "success_msg":"Registration Successful!",
                  "path_route":'/', "path_msg":"Click here to login!"})
         return response
     
-@app.login("/login/")
+@app.post("/login")
 async def sign_in(request:Request, response:Response, 
     email:str = Form(...), password: str =Form(...)):
     try:
