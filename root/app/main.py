@@ -129,7 +129,7 @@ async def register(
         return response
 
 
-@app.post("/login")
+@app.post("/login/")
 async def sign_in(
     request: Request,
     response: Response,
@@ -171,7 +171,7 @@ async def sign_in(
                         "request": request,
                         "USERNAME": user.email,
                         "success_msg": "Welcome back!",
-                        "path_route": "/private/",
+                        "path_route": "/dashboard",
                         "path_msg": "Go to your private page!",
                     },
                 )
