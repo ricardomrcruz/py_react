@@ -1,7 +1,7 @@
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from fastapi import Security
 from passlib.context import CryptContext
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any, Union
 from jose import jwt
 
@@ -9,6 +9,11 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.models import User
 from app.db.database import engine
+
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 class AuthHandler:
@@ -39,13 +44,13 @@ class AuthHandler:
         self, subject: Union[str, Any], expires_delta: timedelta = None
     ) -> str:
         if expires_delta:
-            expire = datetime.now(datetime.UTC) + expires_delta
+            expire = datetime.now(timezone.utc) + expires_delta
         else:
-            expire = datetime.now(datetime.UTC) + timedelta(
+            expire = datetime.now(timezone.utc) + timedelta(
                 minutes=self.ACCESS_TOKEN_EXPIRE_MINUTES
             )
         to_encode = {"exp": expire, "sub": str(subject)}
-        encoded_jwt = jwt.encode(to_encode, self.SECRET_KEY, algotithm=self.ALGORITHM)
+        encoded_jwt = jwt.encode(to_encode, self.SECRET_KEY, algorithm=self.ALGORITHM)
         return encoded_jwt
 
     def get_hash_password(self, plain_password):
@@ -64,11 +69,10 @@ class AuthHandler:
 
             if user and self.verify_password(password, user.hashed_password):
                 return user
-            else:
-                raise RequiresLoginException()
+            return None
         except Exception as e:
-            print(f"Authentication error: {str(e)}")
-            raise RequiresLoginException()
+            logger.error(f"Authentication error: {str(e)}")
+            return None
 
 
 class RequiresLoginException(Exception):

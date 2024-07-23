@@ -19,11 +19,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.models import User
 from app.db.database import engine
 from datetime import datetime, timezone
-
+import logging
 
 app = FastAPI(title="API", description="api test", docs_url="/docs")
 
 db = CRUD()
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
@@ -108,25 +111,40 @@ async def sign_in(request:Request, response:Response,
     email:str = Form(...), password: str =Form(...)):
     try:
         async with AsyncSession(engine) as session:
+            logger.info(f"Attempting to find user with email: {email}")
             # find user mail
-            query = select(User).values(User.email == email )
+            query = select(User).where(User.email == email )
             result = await session.execute(query)
-            user = result.scalar_one_or_none()
+            user = result.scalar_one_or_none() 
             
-            if await auth_handler.authenticate_user(user.email, user.password):
+            if not user:
+                logger.info(f"No user found with email: {email}")
+                return templates.TemplateResponse("login.html", {
+                    "request": request,
+                    "detail": "User not found",
+                    "status_code": 404
+                })
+                
+            logger.info(f"User found: {user.email}")
+            
+            authenticated_user = await auth_handler.authenticate_user(email,password)
+            if authenticated_user:
                 #if user and password verifies create cookie
                 atoken = auth_handler.create_access_token(user.email)
-                response = templates.TemplateResponse("success.html",
-                    {"request":request, "USERNAME": user.email, "success_msg":"Welcome back!",
-                     "path_route": '/private/', "path_msg": "Go to your private page!"})
-                
+                logger.info(f"Authentication successful for user: {user.email}. Redirecting to index.")
+                response = RedirectResponse(url="/", status_code=303)
+                # response = templates.TemplateResponse("login.html",
+                #     {"request":request, "USERNAME": user.email, "success_msg":"Welcome back!",
+                #      "path_route": '/private/', "path_msg": "Go to your private page!"})
                 response.set_cookie(key="Authorization", value=f"{atoken}", httponly=True)
                 return response
             else:
-                return templates.TemplateResponse("error.html", 
+                logger.info(f"Incorrect password for user: {email}")
+                return templates.TemplateResponse("dashboard.html", 
                 {"request":request, 'detail':'Incorrect Username or Password', 'status_code':404})
     except Exception as err:
-        return templates.TemplateResponse("error.html", 
+        logger.error(f"An unexpected error occurred: {str(err)}")
+        return templates.TemplateResponse("dashboard.html", 
                 {"request":request, 'detail':'Incorrect Username or Password', 'status_code':401})
         
 
