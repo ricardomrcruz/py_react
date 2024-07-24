@@ -91,7 +91,7 @@ async def get_all_users():
         return result.scalars().all()
 
 
-@app.get("/signin", response_class=HTMLResponse)
+@app.get("/login/", response_class=HTMLResponse)
 async def dashboard(request: Request):
     return templates.TemplateResponse({"request": request}, name="login.html")
 
@@ -106,7 +106,7 @@ async def register(
     async with AsyncSession(engine) as session:
         hashed_password = auth_handler.get_hash_password(password)
         current_time = datetime.now(timezone.utc)
-        query = insert(User).values(
+        query = insert(Userdb).values(
             username=username,
             email=email,
             hashed_password=hashed_password,
@@ -140,7 +140,7 @@ async def sign_in(
         async with AsyncSession(engine) as session:
             logger.info(f"Attempting to find user with email: {email}")
             # find user mail
-            query = select(User).where(User.email == email)
+            query = select(Userdb).where(Userdb.email == email)
             result = await session.execute(query)
             user = result.scalar_one_or_none()
 
@@ -164,17 +164,14 @@ async def sign_in(
                 logger.info(
                     f"Authentication successful for user: {user.email}. Redirecting to index."
                 )
-                # response = RedirectResponse(url="/", status_code=303)
-                response = templates.TemplateResponse(
-                    "dashboard.html",
-                    {
-                        "request": request,
-                        "USERNAME": user.email,
-                        "success_msg": "Welcome back!",
-                        "path_route": "/dashboard",
-                        "path_msg": "Go to your private page!",
-                    },
-                )
+                # response = templates.TemplateResponse("dashboard.html",{
+                #         "request": request,
+                #         "USERNAME": user.email,
+                #         "success_msg": "Welcome back!",
+                #         "path_route": "/dashboard",
+                #         "path_msg": "Go to your private page!",
+                #     })
+                response = RedirectResponse(url="/dashboard", status_code=303)
                 response.set_cookie(
                     key="Authorization", value=f"{atoken}", httponly=True
                 )
