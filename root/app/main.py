@@ -81,7 +81,23 @@ async def index(request: Request):
 
 @app.get("/dashboard", response_class=HTMLResponse)
 async def dashboard(request: Request):
-    return templates.TemplateResponse({"request": request}, name="dashboard.html")
+    # blocked access without cookie
+    auth_token = request.cookies.get("Authorization")
+    if not auth_token:
+        return RedirectResponse(url="/signin", status_code=302)
+
+    welcome = request.cookies.get("welcome", "")
+
+    response = templates.TemplateResponse(
+        {
+            "request": request,
+            "USERNAME": request.cookies.get("username", "User"),
+            "success_login": welcome,
+        },
+        name="dashboard.html",
+    )
+    response.delete_cookie("welcome")
+    return response
 
 
 @app.get("/users", response_model=List[UserOut])
@@ -91,7 +107,7 @@ async def get_all_users():
         return result.scalars().all()
 
 
-@app.get("/login/", response_class=HTMLResponse)
+@app.get("/signin", response_class=HTMLResponse)
 async def dashboard(request: Request):
     return templates.TemplateResponse({"request": request}, name="login.html")
 
@@ -164,17 +180,11 @@ async def sign_in(
                 logger.info(
                     f"Authentication successful for user: {user.email}. Redirecting to index."
                 )
-                # response = templates.TemplateResponse("dashboard.html",{
-                #         "request": request,
-                #         "USERNAME": user.email,
-                #         "success_msg": "Welcome back!",
-                #         "path_route": "/dashboard",
-                #         "path_msg": "Go to your private page!",
-                #     })
                 response = RedirectResponse(url="/dashboard", status_code=303)
                 response.set_cookie(
                     key="Authorization", value=f"{atoken}", httponly=True
                 )
+                response.set_cookie(key="welcome", value="Welcome back to Mark3ts")
                 return response
             else:
                 logger.info(f"Incorrect password for user: {email}")
