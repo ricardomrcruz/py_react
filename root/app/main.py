@@ -206,3 +206,9 @@ async def sign_in(
                 "status_code": 401,
             },
         )
+        
+@app.get("/logout", response_class=HTMLResponse)
+async def logout(request:Request):
+    response = templates.TemplateResponse({"request": request}, name="index.html") 
+    response.delete_cookie("Authorization")
+    return response
