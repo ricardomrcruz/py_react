@@ -82,3 +82,8 @@ async def dropdown_about():
 @router.get("/empty-dropdown", response_class=HTMLResponse)
 async def empty_dropdown():
     return ""
+
+@router.get("/register_form", response_class=HTMLResponse)
+async def register_form(request: Request):
+    return templates.TemplateResponse({"request": request}, name="components/register_form.html")
+
