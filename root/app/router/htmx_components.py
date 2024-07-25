@@ -22,61 +22,13 @@ async def index2(request: Request, hx_request: Annotated[str | None, Header()] =
 
 
 @router.get("/dropdown-feat", response_class=HTMLResponse)
-async def dropdown_feat():
-    return """
-    <div
-    class=" border-b border-neutral-800 p-2"
-    hx-trigger="mouseleave from:body"
-    hx-target="#dropdown"
-    hx-swap="innerHTML"
-    hx-get="/empty-dropdown">
-        <ul class="w-[70%] flex flex-wrap items-center justify-center gap-8 mx-auto">
-            <li>
-                <a
-                href="#"
-                class="block py-2 px-3 text-gray-300 rounded md:hover:text-white md:p-0"
-                >Market Data</a
-                >
-            </li>
-            <li>
-                <a
-                href="#"
-                class="block py-2 px-3 text-gray-300 rounded md:hover:text-white md:p-0"
-                >Upcoming releases</a
-                >
-            </li>
-        </ul>
-    </div>
-    """
+async def dropdown_feat(request:Request):
+    return templates.TemplateResponse({"request": request}, name="partials/dropdown_feat.html")
 
 
 @router.get("/dropdown-about", response_class=HTMLResponse)
-async def dropdown_about():
-    return """
-    <div
-    class=" border-b border-neutral-800 p-2"
-    hx-trigger="mouseleave from:body"
-    hx-target="#dropdown"
-    hx-swap="innerHTML"
-    hx-get="/empty-dropdown">
-        <ul class="w-[70%] flex flex-wrap items-center justify-center gap-8 mx-auto">
-            <li>
-                <a
-                href="#"
-                class="block py-2 px-3 text-gray-300 rounded md:hover:text-white md:p-0"
-                >Who are we?</a
-                >
-            </li>
-            <li>
-                <a
-                href="#"
-                class="block py-2 px-3 text-gray-300 rounded md:hover:text-white md:p-0"
-                >Contact Us</a
-                >
-            </li>
-        </ul>
-    </div>
-    """
+async def dropdown_about(request:Request):
+    return templates.TemplateResponse({"request": request}, name="partials/dropdown_about.html")
 
 
 @router.get("/empty-dropdown", response_class=HTMLResponse)

@@ -118,8 +118,16 @@ async def register(
     username: str = Form(...),
     email: str = Form(...),
     password: str = Form(...),
+    verify_password: str = Form(...),
 ):
     async with AsyncSession(engine) as session:
+
+        # if verify_password != password:
+        #     logger.info(f"Error. Passwords dont verify eachother.")
+        #     return """
+        #     Passwords dont verify. 
+        #     """, 400
+        
         hashed_password = auth_handler.get_hash_password(password)
         current_time = datetime.now(timezone.utc)
         query = insert(Userdb).values(
@@ -206,9 +214,10 @@ async def sign_in(
                 "status_code": 401,
             },
         )
-        
+
+
 @app.get("/logout", response_class=HTMLResponse)
-async def logout(request:Request):
-    response = templates.TemplateResponse({"request": request}, name="index.html") 
+async def logout(request: Request):
+    response = templates.TemplateResponse({"request": request}, name="index.html")
     response.delete_cookie("Authorization")
     return response

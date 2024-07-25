@@ -1,5 +1,5 @@
 <div
-  class="relative mt-44 p-8 max-w-md mx-auto bg-black bg-opacity-70 border border-sky-950 rounded-md"
+  class="relative mt-28 p-8 max-w-md mx-auto bg-black bg-opacity-70 border border-sky-950 rounded-md"
   hx-target="this"
   hx-swap="outerHTML"
 >
@@ -16,20 +16,46 @@
   </div>
 
   <!-- login form -->
-  <form action="/login/" method="post" class="mt-5 max-w-sm mx-auto">
+  <form
+    action="/register/"
+    hx-target="#error"
+    hx-swap="innerHTML"
+    method="post"
+    class="mt-5 max-w-sm mx-auto"
+  >
     <h1 class="text-white text-2xl">Register</h1>
-    <div class="mt-4 mb-2">
+    <div class="mt-4">
+      <label
+        for="username"
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >Username</label
+      >
+      <input
+        type="text"
+        id="username"
+        name="username"
+        class="bg-gray-800 text-white text-sm rounded-md block w-full p-2.5 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-900"
+        required
+      />
+      <span
+        class="helper-text"
+        data-error="Please enter a valid username."
+        data-sucess=""
+      >
+      </span>
+    </div>
+    <div class="mb-2 mt-1">
       <label
         for="email"
         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >Your email</label
+        >Email</label
       >
       <input
         type="email"
         id="email"
         name="email"
         class="bg-gray-800 text-white text-sm rounded-md block w-full p-2.5 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-900"
-        placeholder="name@flowbite.com"
+        placeholder="example@mark3ts.com"
         required
       />
       <span
@@ -39,11 +65,11 @@
       >
       </span>
     </div>
-    <div class="mb-8">
+    <div class="mb-1">
       <label
         for="password"
         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >Your password</label
+        >Password</label
       >
       <input
         type="password"
@@ -53,6 +79,21 @@
         required
       />
     </div>
+    <div class="mb-8">
+      <label
+        for="verify_password"
+        class="block mb-2 text-xs font-medium text-gray-900 dark:text-white"
+        >verify password</label
+      >
+      <input
+        type="password"
+        id="verify_password"
+        name="verify_password"
+        class="bg-gray-800 text-white text-sm rounded-md block w-full p-2.5 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-900"
+        required
+      />
+    </div>
+    <div id="error" class="text-red-700"></div>
 
     <button
       type="submit"
