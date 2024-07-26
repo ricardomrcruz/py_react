@@ -142,15 +142,8 @@ async def register(
         await session.execute(query)
         await session.commit()
 
-        response = templates.TemplateResponse(
-            "index.html",
-            {
-                "request": request,
-                "success_msg": "Registration Successful!",
-                "path_route": "/",
-                "path_msg": "Click here to login!",
-            },
-        )
+        response = templates.TemplateResponse({"request": request}, name="login.html")
+        response.headers["HX-Redirect"] = "/signin"
         return response
 
 
@@ -192,7 +185,6 @@ async def sign_in(
                     key="Authorization", value=f"{atoken}", httponly=True
                 )          
                 response.set_cookie(key="welcome", value="Welcome back to Mark3ts")
-                
                 
                 return response
             else:
