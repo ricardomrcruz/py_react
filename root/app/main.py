@@ -124,16 +124,11 @@ async def register(
 
         if verify_password != password:
             logger.info(f"Error. Passwords dont verify eachother.")
-            response = templates.TemplateResponse(
-            "login.html",
-            {
-                "request": request,
-                "error": "Passwords dont verify.",
-            },
-        )
-            return response
-           
-        
+            return HTMLResponse(
+                content="<p class='text-red-600 '>Passwords don't match. Please try again.</p>",
+                status_code=200,
+            )
+
         hashed_password = auth_handler.get_hash_password(password)
         current_time = datetime.now(timezone.utc)
         query = insert(Userdb).values(
@@ -175,14 +170,10 @@ async def sign_in(
             user = result.scalar_one_or_none()
 
             if not user:
-                logger.info(f"No user found with email: {email}")
-                return templates.TemplateResponse(
-                    "login.html",
-                    {
-                        "request": request,
-                        "detail": "User not found",
-                        "status_code": 404,
-                    },
+                logger.info(f"This email is not registered.")
+                return HTMLResponse(
+                    content="<p class='text-red-600 '>This email is not registered.</p>",
+                    status_code=200,
                 )
 
             logger.info(f"User found: {user.email}")
@@ -192,33 +183,29 @@ async def sign_in(
                 # if user and password verifies create cookie
                 atoken = auth_handler.create_access_token(user.email)
                 logger.info(
-                    f"Authentication successful for user: {user.email}. Redirecting to index."
+                    f"Authentication successful for user: {user.email}. Redirecting to dashboard."
                 )
-                response = RedirectResponse(url="/dashboard", status_code=303)
+                response = templates.TemplateResponse({"request": request}, name="dashboard.html")
+                response.headers["HX-Redirect"] = "/dashboard"
+                # response = RedirectResponse(url="/dashboard", status_code=303)
                 response.set_cookie(
                     key="Authorization", value=f"{atoken}", httponly=True
-                )
+                )          
                 response.set_cookie(key="welcome", value="Welcome back to Mark3ts")
+                
+                
                 return response
             else:
-                logger.info(f"Incorrect password for user: {email}")
-                return templates.TemplateResponse(
-                    "index.html",
-                    {
-                        "request": request,
-                        "detail": "Incorrect Username or Password",
-                        "status_code": 404,
-                    },
+                logger.info(f"The password is invalid.")
+                return HTMLResponse(
+                    content="<p class='text-red-600 '>The password is invalid.</p>",
+                    status_code=200,
                 )
     except Exception as err:
-        logger.error(f"An unexpected error occurred: {str(err)}")
-        return templates.TemplateResponse(
-            "index.html",
-            {
-                "request": request,
-                "detail": "Incorrect Username or Password",
-                "status_code": 401,
-            },
+        logger.info(f"An unexpected error occurred: {err}")
+        return HTMLResponse(
+        content="<p class='text-red-600 '>Theres an error with the form submission.</p>",
+        status_code=500,
         )
 
 

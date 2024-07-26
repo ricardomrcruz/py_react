@@ -22,8 +22,15 @@
     </div>
   </div>
 
-  <!-- login form -->
-  <form action="/login/" method="post" class="mt-5 max-w-sm mx-auto">
+  <!-- login form --><!--  -->
+  <form
+    hx-post="/login/"
+    hx-target="#error-container"
+    hx-target-error="#error-container"
+    hx-swap="innerHTML"
+    method="post"
+    class="mt-5 max-w-sm mx-auto"
+  >
     <h1 class="text-white text-2xl">Sign In</h1>
     <div class="mt-4 mb-2">
       <label
@@ -46,7 +53,7 @@
       >
       </span>
     </div>
-    <div class="mb-8">
+    <div class="mb-4">
       <label
         for="password"
         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -60,11 +67,12 @@
         required
       />
     </div>
+    <div id="error-container" class="text-red-800"></div>
 
     <button
       type="submit"
       name="action"
-      class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      class="mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
     >
       Submit
     </button>
@@ -80,7 +88,6 @@
       Create An Account
     </button>
   </div>
-  <div id="error" class="text-white text-center m-auto justify-center"></div>
 </div>
 
 {% endblock %}
