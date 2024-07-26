@@ -122,11 +122,17 @@ async def register(
 ):
     async with AsyncSession(engine) as session:
 
-        # if verify_password != password:
-        #     logger.info(f"Error. Passwords dont verify eachother.")
-        #     return """
-        #     Passwords dont verify. 
-        #     """, 400
+        if verify_password != password:
+            logger.info(f"Error. Passwords dont verify eachother.")
+            response = templates.TemplateResponse(
+            "login.html",
+            {
+                "request": request,
+                "error": "Passwords dont verify.",
+            },
+        )
+            return response
+           
         
         hashed_password = auth_handler.get_hash_password(password)
         current_time = datetime.now(timezone.utc)

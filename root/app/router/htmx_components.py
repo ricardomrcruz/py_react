@@ -23,12 +23,12 @@ async def index2(request: Request, hx_request: Annotated[str | None, Header()] =
 
 @router.get("/dropdown-feat", response_class=HTMLResponse)
 async def dropdown_feat(request:Request):
-    return templates.TemplateResponse({"request": request}, name="partials/dropdown_feat.html")
+    return templates.TemplateResponse({"request": request}, name="partials/dropdown-feat.html")
 
 
 @router.get("/dropdown-about", response_class=HTMLResponse)
 async def dropdown_about(request:Request):
-    return templates.TemplateResponse({"request": request}, name="partials/dropdown_about.html")
+    return templates.TemplateResponse({"request": request}, name="partials/dropdown-about.html")
 
 
 @router.get("/empty-dropdown", response_class=HTMLResponse)

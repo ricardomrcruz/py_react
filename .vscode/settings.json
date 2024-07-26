@@ -90,7 +90,7 @@
       {
         "scope": "string",
         "settings": {
-          "foreground": "#D69D85" // Light brown color for strings
+          "foreground": "#f88466" // orange color for strings
         }
       },
       {
