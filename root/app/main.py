@@ -143,7 +143,7 @@ async def register(
         await session.commit()
 
         response = templates.TemplateResponse({"request": request}, name="login.html")
-        response.headers["HX-Redirect"] = "/signin"
+        response.headers["HX-Location"] = "/signin"
         return response
 
 
@@ -178,14 +178,14 @@ async def sign_in(
                 logger.info(
                     f"Authentication successful for user: {user.email}. Redirecting to dashboard."
                 )
-                response = templates.TemplateResponse({"request": request}, name="dashboard.html")
+                response = templates.TemplateResponse(
+                    {"request": request}, name="dashboard.html"
+                )
                 response.headers["HX-Redirect"] = "/dashboard"
-                # response = RedirectResponse(url="/dashboard", status_code=303)
                 response.set_cookie(
                     key="Authorization", value=f"{atoken}", httponly=True
-                )          
-                response.set_cookie(key="welcome", value="Welcome back to Mark3ts")
-                
+                )
+                response.set_cookie(key="welcome", value="welcome back to Mark3ts")
                 return response
             else:
                 logger.info(f"The password is invalid.")
@@ -196,8 +196,8 @@ async def sign_in(
     except Exception as err:
         logger.info(f"An unexpected error occurred: {err}")
         return HTMLResponse(
-        content="<p class='text-red-600 '>Theres an error with the form submission.</p>",
-        status_code=500,
+            content="<p class='text-red-600 '>Theres an error with the form submission.</p>",
+            status_code=500,
         )
 
 
@@ -206,3 +206,5 @@ async def logout(request: Request):
     response = templates.TemplateResponse({"request": request}, name="index.html")
     response.delete_cookie("Authorization")
     return response
+
+
