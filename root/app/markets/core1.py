@@ -1,11 +1,12 @@
+from fastapi import APIRouter, Request, Header
 from playwright.async_api import async_playwright
 import asyncio
 import json 
 import os
 
-# amazon 
+router = APIRouter()
 
-async def main():
+async def scrape_amazon():
 
     browsers = ["chromium", "firefox", "webkit"]
     async with async_playwright() as p:
@@ -37,7 +38,18 @@ async def main():
        
             print(data)
             await browser.close()
+            return data
+        
+@router.get("/run_scraper1")
+async def run_scraper1():
+    try:
+        scraped_data= await scrape_amazon()
+        return {"status":"success","data": scraped_data}
+    except Exception as e:
+        return {"status":"error", "message":str(e)}
+    
 
 
-if __name__ == "__main__":
-    asyncio.run(main())
+
+# if __name__ == "__main__":
+#     asyncio.run(scrape_amazon())
