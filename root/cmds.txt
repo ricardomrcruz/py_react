@@ -2,12 +2,14 @@
 $ py -m app.db.create_db
 
 
-/g/desktop/techwatch/root (main)
-$ uvicorn app.main:app --reload
-
 
 /g/desktop/techwatch/root (main)
 $ source venv/Scripts/activate
+
+
+/g/desktop/techwatch/root (main)
+$ uvicorn app.main:app --reload
+
 
 
 install requirements

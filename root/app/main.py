@@ -1,4 +1,6 @@
 from fastapi import FastAPI, Request, Header, Form, Depends
+import asyncio
+import uvicorn
 from sqlalchemy import select, insert
 from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession
 from typing import List
@@ -9,6 +11,7 @@ from fastapi.templating import Jinja2Templates
 from app.router.api_v1 import endpoints as api_endpoints
 from fastapi.responses import HTMLResponse, RedirectResponse, Response
 from app.router import htmx_components
+from app.markets import core1
 from app.auth import AuthHandler, RequiresLoginException
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.models import User as Userdb, Product as DBProduct
@@ -16,6 +19,7 @@ from app.db.database import engine
 from app.db.schemas import User, UserOut
 from datetime import datetime, timezone
 import logging
+import sys
 
 app = FastAPI(title="API", description="api test", docs_url="/docs")
 
@@ -30,6 +34,10 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 templates = Jinja2Templates(directory="app/templates")
 auth_handler = AuthHandler()
+
+# Set event loop policy for Windows
+if sys.platform == "win32":
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 
 # redirection from exception to index
@@ -72,6 +80,7 @@ async def create_auth_header(request: Request, call_next):
 # API routes
 app.include_router(api_endpoints.router, prefix="/api/v1", tags=["api"])
 app.include_router(htmx_components.router, tags=["htmx"])
+app.include_router(core1.router, prefix="/scraper", tags=["scraper1"])
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -208,3 +217,6 @@ async def logout(request: Request):
     return response
 
 
+if __name__ == "__main__":
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

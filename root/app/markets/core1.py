@@ -1,10 +1,16 @@
-from fastapi import APIRouter, Request, Header
+from fastapi import FastAPI, APIRouter, Request, Header
 from playwright.async_api import async_playwright
 import asyncio
+import logging
+import sys
 import json 
 import os
 
+app = FastAPI()
 router = APIRouter()
+
+if sys.platform == "win32":
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 async def scrape_amazon():
 
@@ -12,7 +18,7 @@ async def scrape_amazon():
     async with async_playwright() as p:
         for browser_type in browsers:
 
-            browser = await p[browser_type].launch()
+            browser = await p[browser_type].launch(args=['--no-sandbox'])
             page = await browser.new_page()
             query = "playstation+5+console"
             await page.goto(f"https://www.amazon.fr/s?k={query}")
@@ -35,21 +41,30 @@ async def scrape_amazon():
                 result["img"] = await img_el.get_attribute("src") if img_el else None
                 data.append(result)
 
-       
-            print(data)
+            logging.debug(f"Scraped data: {data}")
+            # print(data)
             await browser.close()
             return data
         
+def run_scrape_amazon():
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    result = loop.run_until_complete(scrape_amazon())
+    loop.close()
+    return result
+
 @router.get("/run_scraper1")
 async def run_scraper1():
     try:
-        scraped_data= await scrape_amazon()
-        return {"status":"success","data": scraped_data}
+        scraped_data = await asyncio.to_thread(run_scrape_amazon)
+        return {"status": "success", "data": scraped_data}
     except Exception as e:
-        return {"status":"error", "message":str(e)}
-    
+        logging.error(f"Error occurred: {str(e)}")
+        return {"status": "error", "message": str(e)}
 
+app.include_router(router, prefix="/scraper", tags=["scraper1"])
 
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
 
-# if __name__ == "__main__":
-#     asyncio.run(scrape_amazon())
