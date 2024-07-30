@@ -5,6 +5,7 @@ import json
 async def scrape_amazon(query: str):
     try:
         async with async_playwright() as p:
+             # browser = await p.chromium.launch(executable_path=r"G:\Program Files\Google\Chrome\Application\chrome.exe")
             browser = await p.chromium.launch(executable_path=r"C:\Program Files\Google\Chrome\Application\chrome.exe")
             page = await browser.new_page()
             await page.goto(f"https://www.amazon.fr/s?k={query}")

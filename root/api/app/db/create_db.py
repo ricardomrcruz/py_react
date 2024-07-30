@@ -1,5 +1,5 @@
-from app.db.database import Base, engine
-from app.db.models import Product, Category, User
+from api.app.db.database import Base, engine
+from api.app.db.models import Product, Category, User
 import asyncio
 
 

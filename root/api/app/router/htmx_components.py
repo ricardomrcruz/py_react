@@ -5,7 +5,7 @@ from typing import Annotated
 
 router = APIRouter()
 
-templates = Jinja2Templates(directory="app/templates")
+templates = Jinja2Templates(directory="api/app/templates")
 
 
 @router.get("/test", response_class=HTMLResponse)

@@ -3,7 +3,7 @@ from .scraper import scrape_amazon
 
 app = FastAPI()
 
-@app.post("/scrape")
+@app.post("/scrape_amazon")
 def scrape(query: str):
     try:
         result = scrape_amazon(query)
