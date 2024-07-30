@@ -3,7 +3,7 @@ import json
 
 def scrape_amazon(query: str):
     try:
-        result = subprocess.run(['python', 'scraper/playwright_worker.py', query], capture_output=True, text=True,  check=True)
+        result = subprocess.run(['python', 'scraper/app/core1.py', query], capture_output=True, text=True,  check=True)
         return json.loads(result.stdout)
     except subprocess.CalledProcessError as e:
         print(f"Subprocess error: {e}")
