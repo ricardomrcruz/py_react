@@ -1,1 +1,1 @@
-from . import core1
+from . import core1, core2

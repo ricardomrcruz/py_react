@@ -1,11 +1,10 @@
 import asyncio
 from playwright.async_api import async_playwright
+import sys
 
 
-# ebay
 
-
-async def main():
+async def scrape_amazon(query:str):
 
     browsers = ["chromium", "firefox", "webkit"]
     async with async_playwright() as p:
@@ -13,7 +12,7 @@ async def main():
 
             browser = await p[browser_type].launch()
             page = await browser.new_page()
-            query = "playstation+5+console"
+            # query = "playstation+5+console" 
             await page.goto(f"https://www.amazon.fr/s?k={query}")
             await page.screenshot(path=f"py_{browser_type}.png", full_page=True)
             await page.wait_for_timeout(1000)
@@ -38,6 +37,8 @@ async def main():
             await browser.close()
     return data
 
+async def main(query:str):
+    return await scrape_amazon(query)
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    asyncio.run(main("playstation+5+console"))
