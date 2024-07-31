@@ -1,0 +1,27 @@
+version: "3"
+services:
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=py_db
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  api:
+    build: ./api
+    ports:
+      - "8000:80"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db/py_db
+    depends_on:
+      - db
+    volumes:
+      - api_code:/app
+
+volumes:
+  postgres_data:
+  api_code:

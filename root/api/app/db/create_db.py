@@ -1,5 +1,5 @@
-from api.app.db.database import Base, engine
-from api.app.db.models import Product, Category, User
+from db.database import Base, engine
+from db.models import Product, Category, User
 import asyncio
 
 
@@ -13,4 +13,4 @@ async def create_db():
 
 
 # decomment to create db
-# asyncio.run(create_db())
+asyncio.run(create_db())

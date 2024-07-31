@@ -4,19 +4,19 @@ import uvicorn
 from sqlalchemy import select, insert
 from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession
 from typing import List
-from api.app.db.repositories import CRUD
-from api.app.db.database import engine
+from db.repositories import CRUD
+from db.database import engine
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from api.app.router.api_v1 import endpoints as api_endpoints
+from router.api_v1 import endpoints as api_endpoints
 from fastapi.responses import HTMLResponse, RedirectResponse, Response
-from api.app.router import htmx_components
-from api.app.markets.core2 import scrape_amazon
-from api.app.auth import AuthHandler, RequiresLoginException
+from router import htmx_components
+from markets.core2 import scrape_amazon
+from auth import AuthHandler, RequiresLoginException
 from sqlalchemy.ext.asyncio import AsyncSession
-from api.app.db.models import User as Userdb, Product as DBProduct
-from api.app.db.database import engine
-from api.app.db.schemas import User, UserOut
+from db.models import User as Userdb, Product as DBProduct
+from db.database import engine
+from db.schemas import User, UserOut
 from datetime import datetime, timezone
 import logging
 import sys
@@ -33,9 +33,9 @@ session = async_sessionmaker(bind=engine, expire_on_commit=False)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-app.mount("/static", StaticFiles(directory="api/app/static"), name="static")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
-templates = Jinja2Templates(directory="api/app/templates")
+templates = Jinja2Templates(directory="templates")
 auth_handler = AuthHandler()
 
 

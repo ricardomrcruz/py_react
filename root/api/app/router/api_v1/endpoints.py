@@ -2,11 +2,11 @@ from fastapi import FastAPI, HTTPException, APIRouter
 from sqlalchemy.ext.asyncio import async_sessionmaker
 from typing import Optional, List, Annotated
 from http import HTTPStatus
-from api.app.db.repositories import CRUD
-from api.app.db.database import engine
-from api.app.db.models import Product as DBProduct
-from api.app.db.create_db import create_db
-from api.app.db.schemas import (
+from db.repositories import CRUD
+from db.database import engine
+from db.models import Product as DBProduct
+from db.create_db import create_db
+from db.schemas import (
     User,
     Product,
     CreateProductModel,
