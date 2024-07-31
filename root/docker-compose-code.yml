@@ -17,7 +17,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   api:
-    build: api
+    build: ./api
     ports:
       - "8000:80"
     environment:
@@ -27,7 +27,7 @@ services:
         condition: service_healthy
     volumes:
       - api_code:/app
-      # - ./api/app:/app
+
 volumes:
   postgres_data:
   api_code:

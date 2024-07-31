@@ -1,11 +1,12 @@
 from fastapi import FastAPI, Request, Header, Form, Depends
+from contextlib import asynccontextmanager
 import asyncio
 import uvicorn
 from sqlalchemy import select, insert
 from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession
 from typing import List
 from db.repositories import CRUD
-from db.database import engine
+from db.database import engine, init_db, async_session_maker
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from router.api_v1 import endpoints as api_endpoints
@@ -15,16 +16,29 @@ from markets.core2 import scrape_amazon
 from auth import AuthHandler, RequiresLoginException
 from sqlalchemy.ext.asyncio import AsyncSession
 from db.models import User as Userdb, Product as DBProduct
-from db.database import engine
+from db.database import engine, async_session_maker
 from db.schemas import User, UserOut
 from datetime import datetime, timezone
 import logging
 import sys
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    global engine, async_session_maker
+    engine = await init_db()
+    async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
+    yield
+    # Shutdown
+    if engine:
+        await engine.dispose()
+
 if sys.platform == "win32":
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
-app = FastAPI(title="API", description="api test", docs_url="/docs")
+app = FastAPI(lifespan=lifespan, title="API", description="api test", docs_url="/docs")
+
+
 
 db = CRUD()
 session = async_sessionmaker(bind=engine, expire_on_commit=False)

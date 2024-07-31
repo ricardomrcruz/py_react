@@ -14,5 +14,4 @@ ENV PYTHONUNBUFFERED=1
 
 RUN python --version
 
-
-CMD uvicorn main:app --host 0.0.0.0 --port 80 --reload
+CMD python create_db.py && uvicorn main:app --host 0.0.0.0 --port 80 --reload

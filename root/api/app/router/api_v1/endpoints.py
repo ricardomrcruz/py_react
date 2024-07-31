@@ -5,7 +5,7 @@ from http import HTTPStatus
 from db.repositories import CRUD
 from db.database import engine
 from db.models import Product as DBProduct
-from db.create_db import create_db
+from create_db import create_db
 from db.schemas import (
     User,
     Product,
